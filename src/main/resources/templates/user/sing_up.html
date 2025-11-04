@@ -6,6 +6,20 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST" action="/user/sing-up"></form>
+    <form method="POST" action="/user/sing-up">
+        <label for="name">Full Name</label>
+        <input required type="text" name="name">
+
+        <label for="userName">User Name</label>
+        <input required type="text" name="userName">
+
+        <label for="email">Email</label>
+        <input required type="email" name="email">
+
+        <label for="password">Password</label>
+        <input required type="password" name="password">
+
+        <button type="submit">Send</button>
+    </form>
 </body>
 </html>
