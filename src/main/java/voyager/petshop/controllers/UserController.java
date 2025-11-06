@@ -13,6 +13,7 @@ import voyager.petshop.utils.UserFieldsVerification;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -20,12 +21,12 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/sing-up")
+    @GetMapping("/sign-up")
     public String signUpPage() {
-        return "user/sing_up";
+        return "user/sign_up";
     }
 
-    @PostMapping("/sing-up")
+    @PostMapping("/sign-up")
     public ModelAndView signUpPageForm(User user) {
         ModelAndView mv = new ModelAndView();
         try {
@@ -35,20 +36,33 @@ public class UserController {
                 mv = new ModelAndView("redirect:/");
                 return mv;
             }
-            mv = new ModelAndView("redirect:/user/sing_up");
+            mv = new ModelAndView("redirect:/user/sign_up");
             return mv;
         }
         catch(UserFieldsException exception) {
-            mv = new ModelAndView("redirect:/user/sing_up");
+            mv = new ModelAndView("redirect:/user/sign_up");
             mv.addObject(user);
             mv.addObject(exception);
             return mv;
         }
     }
 
-    @GetMapping("/sing-in")
-    public String getMethodName() {
-        return "user/sing_in";
+    @GetMapping("/sign-in")
+    public String signInPage() {
+        return "user/sign_in";
     }
+
+    @PostMapping("/sign-in")
+    public String signInPageForm(String credential, String password) {
+        boolean isEmail = credential.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
+        User user;
+        if (isEmail)
+            user = userRepository.findByEmail(credential);
+        else
+            user = userRepository.findByUserName(credential);
+        user.setPassword(password);
+        return "redirect:/";
+    }
+    
 
 }
