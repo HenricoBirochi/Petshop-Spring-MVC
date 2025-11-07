@@ -1,5 +1,7 @@
 package voyager.petshop.controllers;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,11 +9,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import voyager.petshop.dtos.LoginForm;
-import voyager.petshop.exceptions.UserFieldsException;
+import voyager.petshop.exceptions.UserException;
 import voyager.petshop.exceptions.WrongCredentialsException;
 import voyager.petshop.models.User;
 import voyager.petshop.repositories.UserRepository;
-import voyager.petshop.utils.UserFieldsVerification;
+import voyager.petshop.utils.UserValidation;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,18 +27,21 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserValidation userValidation;
+
     @GetMapping("/sign-up")
     public ModelAndView signUpPage(@ModelAttribute("user") User user,
-                                   @ModelAttribute("exception") UserFieldsException exception) {
+                                   @ModelAttribute("exception") UserException exception) {
         var mv = new ModelAndView("user/sign_up");
 
         if (user == null)
             user = new User();
         if (exception == null)
-            exception = new UserFieldsException(null, null);
+            exception = new UserException("", new HashMap<>());
 
-        mv.addObject(user);
-        mv.addObject(exception);
+        mv.addObject("user", user);
+        mv.addObject("exception", exception);
         return mv;
     }
 
@@ -45,7 +50,8 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         try {
             if (user != null) {
-                UserFieldsVerification.userValidatingFields(user);
+                userValidation.userValidatingEmptyFields(user);
+                userValidation.userValidatingIfExists(user);
                 userRepository.save(user);
                 mv = new ModelAndView("redirect:/");
                 return mv;
@@ -53,10 +59,10 @@ public class UserController {
             mv = new ModelAndView("redirect:/user/sign-up");
             return mv;
         }
-        catch(UserFieldsException exception) {
-            mv = new ModelAndView("redirect:/user/sign-up");
-            mv.addObject(user);
-            mv.addObject(exception);
+        catch(UserException exception) {
+            mv = new ModelAndView("user/sign_up");
+            mv.addObject("user", user);
+            mv.addObject("exception", exception);
             return mv;
         }
     }
@@ -69,7 +75,7 @@ public class UserController {
         if (loginForm == null)
             loginForm = new LoginForm("", "");
 
-        mv.addObject(loginForm);
+        mv.addObject("loginForm", loginForm);
         return mv;
     }
 
@@ -107,8 +113,8 @@ public class UserController {
         }
         catch(WrongCredentialsException exception) {
             mv.setViewName("user/sign_in");
-            mv.addObject(exception);
-            mv.addObject(loginForm);
+            mv.addObject("exception", exception);
+            mv.addObject("loginForm", loginForm);
             return mv;
         }
     }
