@@ -5,12 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.HttpServletRequest;
+import voyager.petshop.dtos.LoginForm;
 import voyager.petshop.exceptions.UserFieldsException;
+import voyager.petshop.exceptions.WrongCredentialsException;
 import voyager.petshop.models.User;
 import voyager.petshop.repositories.UserRepository;
 import voyager.petshop.utils.UserFieldsVerification;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -22,12 +26,22 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/sign-up")
-    public String signUpPage() {
-        return "user/sign_up";
+    public ModelAndView signUpPage(@ModelAttribute("user") User user,
+                                   @ModelAttribute("exception") UserFieldsException exception) {
+        var mv = new ModelAndView("user/sign_up");
+
+        if (user == null)
+            user = new User();
+        if (exception == null)
+            exception = new UserFieldsException(null, null);
+
+        mv.addObject(user);
+        mv.addObject(exception);
+        return mv;
     }
 
     @PostMapping("/sign-up")
-    public ModelAndView signUpPageForm(User user) {
+    public ModelAndView signUpPageForm(@ModelAttribute("user") User user) {
         ModelAndView mv = new ModelAndView();
         try {
             if (user != null) {
@@ -36,11 +50,11 @@ public class UserController {
                 mv = new ModelAndView("redirect:/");
                 return mv;
             }
-            mv = new ModelAndView("redirect:/user/sign_up");
+            mv = new ModelAndView("redirect:/user/sign-up");
             return mv;
         }
         catch(UserFieldsException exception) {
-            mv = new ModelAndView("redirect:/user/sign_up");
+            mv = new ModelAndView("redirect:/user/sign-up");
             mv.addObject(user);
             mv.addObject(exception);
             return mv;
@@ -48,21 +62,55 @@ public class UserController {
     }
 
     @GetMapping("/sign-in")
-    public String signInPage() {
-        return "user/sign_in";
+    public ModelAndView signInPage(@ModelAttribute("loginForm") LoginForm loginForm,
+                                   @ModelAttribute("exception") WrongCredentialsException exception) {
+        ModelAndView mv = new ModelAndView("user/sign_in");
+
+        if (loginForm == null)
+            loginForm = new LoginForm("", "");
+
+        mv.addObject(loginForm);
+        return mv;
     }
 
     @PostMapping("/sign-in")
-    public String signInPageForm(String credential, String password) {
-        boolean isEmail = credential.matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
-        User user;
-        if (isEmail)
-            user = userRepository.findByEmail(credential);
-        else
-            user = userRepository.findByUserName(credential);
-        user.setPassword(password);
-        return "redirect:/";
+    public ModelAndView signInPageForm(@ModelAttribute("loginForm") LoginForm loginForm,
+                                       HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        User user = new User();
+
+        try {
+
+            boolean isEmail = loginForm.getCredential().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
+
+            if (isEmail) {
+                user = userRepository.findByEmail(loginForm.getCredential());
+                if (user != null && user.getPassword().equals(loginForm.getPassword())) {
+                    var session = request.getSession();
+                    session.setAttribute("user", user);
+
+                    mv = new ModelAndView("redirect:/");
+                    return mv;
+                }
+            }
+            else {
+                user = userRepository.findByUserName(loginForm.getCredential());
+                if (user != null && user.getPassword().equals(loginForm.getPassword())) {
+                    var session = request.getSession();
+                    session.setAttribute("user", user);
+
+                    mv = new ModelAndView("redirect:/");
+                    return mv;
+                }
+            }
+            throw new WrongCredentialsException("Credentials are wrong or you don't have an account");
+        }
+        catch(WrongCredentialsException exception) {
+            mv.setViewName("user/sign_in");
+            mv.addObject(exception);
+            mv.addObject(loginForm);
+            return mv;
+        }
     }
-    
 
 }
