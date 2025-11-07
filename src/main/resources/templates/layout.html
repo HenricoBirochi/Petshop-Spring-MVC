@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title, pageStyles)">
+  <meta charset="UTF-8">
+  <title th:text="${title}"></title>
+  <script src="https://cdn.tailwindcss.com"></script> <!--Customization with Tailwind-->
+  <!-- espaço opcional para CSS específico da página -->
+  <th:block th:insert="${pageStyles} ?: ~{}"></th:block>
 </head>
-<body>
-    
+<body class="min-h-screen bg-gradient-to-br from-amber-50 via-white to-amber-100 flex items-center justify-center px-4">
+    <!-- Fragmento com “slot” -->
+    <div th:fragment="layout(content, pageScripts)">
+        <header th:replace="~{fragments/header :: header}"></header>
+        <main th:replace="${content}">
+            <!-- aqui entra o conteúdo da página -->
+        </main>
+
+        <footer class="mt-4">© 2025</footer>
+        <!-- espaço opcional para JS específico da página -->
+        <th:block th:insert="${pageScripts} ?: ~{}"></th:block>
+    </div>
 </body>
 </html>
