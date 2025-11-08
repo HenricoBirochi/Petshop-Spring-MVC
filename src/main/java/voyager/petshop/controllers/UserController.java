@@ -12,6 +12,7 @@ import voyager.petshop.dtos.LoginForm;
 import voyager.petshop.exceptions.UserException;
 import voyager.petshop.exceptions.WrongCredentialsException;
 import voyager.petshop.models.User;
+import voyager.petshop.models.enums.UserRoles;
 import voyager.petshop.repositories.UserRepository;
 import voyager.petshop.utils.UserValidation;
 
@@ -52,6 +53,8 @@ public class UserController {
             if (user != null) {
                 userValidation.userValidatingEmptyFields(user);
                 userValidation.userValidatingIfExists(user);
+                // Set the User Role
+                user.setUserRole(UserRoles.Client);
                 userRepository.save(user);
                 mv = new ModelAndView("redirect:/");
                 return mv;

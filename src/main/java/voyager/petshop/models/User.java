@@ -7,11 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import voyager.petshop.models.enums.UserRoles;
 
 @Entity
 @Table(name = "users")
@@ -36,8 +35,7 @@ public class User {
     @Column(length = 200, nullable = false)
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "shopping_cart_id")
-    private ShoppingCart shoppingCart;
+    @Column(name = "user_role", nullable = false)
+    private UserRoles userRole;
 
 }

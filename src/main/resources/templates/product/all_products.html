@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+    <th:block th:replace="~{layout :: head('All Products', ~{::pageStyles})}"></th:block>
+
+    <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
+        <main th:fragment="content">
+            
+        </main>
+    </th:block>
+</html>
