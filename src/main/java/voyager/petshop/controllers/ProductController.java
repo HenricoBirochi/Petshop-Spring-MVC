@@ -1,5 +1,7 @@
 package voyager.petshop.controllers;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,17 +36,22 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public ModelAndView addProductView(@ModelAttribute Product product) {
+    public ModelAndView addProductView(@ModelAttribute("product") Product product,
+                                       @ModelAttribute("exception") ModelException exception) {
         ModelAndView mv = new ModelAndView("product/add_product");
+
         if (product == null)
             product = new Product();
+        if (exception == null)
+            exception = new ModelException("", new HashMap<>());
 
         mv.addObject("product", product);
+        mv.addObject("exception", exception);
         return mv;
     }
 
     @PostMapping("/add")
-    public ModelAndView addProduct(@ModelAttribute Product product) {
+    public ModelAndView addProduct(@ModelAttribute("product") Product product) {
         ModelAndView mv = new ModelAndView("");
         try{
             if (product != null) {
