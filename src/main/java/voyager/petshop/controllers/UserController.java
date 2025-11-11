@@ -9,12 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import voyager.petshop.dtos.LoginForm;
-import voyager.petshop.exceptions.UserException;
+import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.exceptions.WrongCredentialsException;
 import voyager.petshop.models.User;
 import voyager.petshop.models.enums.UserRoles;
 import voyager.petshop.repositories.UserRepository;
-import voyager.petshop.utils.UserValidation;
+import voyager.petshop.services.UserValidationService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,17 +29,17 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private UserValidation userValidation;
+    private UserValidationService userValidationService;
 
     @GetMapping("/sign-up")
     public ModelAndView signUpPage(@ModelAttribute("user") User user,
-                                   @ModelAttribute("exception") UserException exception) {
+                                   @ModelAttribute("exception") ModelException exception) {
         var mv = new ModelAndView("user/sign_up");
 
         if (user == null)
             user = new User();
         if (exception == null)
-            exception = new UserException("", new HashMap<>());
+            exception = new ModelException("", new HashMap<>());
 
         mv.addObject("user", user);
         mv.addObject("exception", exception);
@@ -51,8 +51,8 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         try {
             if (user != null) {
-                userValidation.userValidatingEmptyFields(user);
-                userValidation.userValidatingIfExists(user);
+                userValidationService.modelValidatingEmptyFields(user);
+                userValidationService.modelValidatingIfExists(user);
                 // Set the User Role
                 user.setUserRole(UserRoles.Client);
                 userRepository.save(user);
@@ -62,7 +62,7 @@ public class UserController {
             mv = new ModelAndView("redirect:/user/sign-up");
             return mv;
         }
-        catch(UserException exception) {
+        catch(ModelException exception) {
             mv = new ModelAndView("user/sign_up");
             mv.addObject("user", user);
             mv.addObject("exception", exception);

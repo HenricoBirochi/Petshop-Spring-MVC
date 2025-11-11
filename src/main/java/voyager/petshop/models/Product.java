@@ -11,12 +11,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import voyager.petshop.models.interfaces.IModel;
 
 @Entity
 @Table(name = "products")
 @Getter
 @Setter
-public class Product {
+public class Product implements IModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

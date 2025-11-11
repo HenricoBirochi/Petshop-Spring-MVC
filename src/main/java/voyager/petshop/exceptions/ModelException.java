@@ -8,11 +8,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserException extends Exception {
+public class ModelException extends Exception {
 
     private Map<String, String> specificErrors;
 
-    public UserException(String message, Map<String, String> specificErrors) {
+    public ModelException(String message, Map<String, String> specificErrors) {
         super(message);
         this.specificErrors = (specificErrors != null) ? specificErrors : new HashMap<>();
     }

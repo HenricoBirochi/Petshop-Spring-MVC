@@ -1,34 +1,42 @@
-package voyager.petshop.utils;
+package voyager.petshop.services;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import voyager.petshop.exceptions.UserException;
+import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.models.User;
+import voyager.petshop.models.interfaces.IModel;
 import voyager.petshop.repositories.UserRepository;
+import voyager.petshop.services.interfaces.IModelsValidationService;
 
 @Component
-public class UserValidation {
+public class UserValidationService implements IModelsValidationService {
 
     private final UserRepository repository;
 
-    public UserValidation(UserRepository repository) {
+    public UserValidationService(UserRepository repository) {
         this.repository = repository;
     }
 
-    public void userValidatingIfExists(User user) throws UserException {
+    @Override
+    public void modelValidatingIfExists(IModel model) throws ModelException {
+        User user = (User)model;
+
         if (repository.findByUserName(user.getUserName()) != null) {
-            throw new UserException("It already has a user with this user name", new HashMap<>());
+            throw new ModelException("It already has a user with this user name", new HashMap<>());
         }
 
         if (repository.findByEmail(user.getEmail()) != null) {
-            throw new UserException("It already has a user with this email" , new HashMap<>());
+            throw new ModelException("It already has a user with this email" , new HashMap<>());
         }
     }
 
-    public void userValidatingEmptyFields(User user) throws UserException {
+    @Override
+    public void modelValidatingEmptyFields(IModel model) throws ModelException {
+        User user = (User)model;
+
         Map<String, String> specificErrors = new HashMap<>();
 
         if (user.getName() == null || user.getName().trim().isEmpty()) {
@@ -45,7 +53,7 @@ public class UserValidation {
         }
 
         if (!specificErrors.isEmpty()) {
-            throw new UserException("There is empty fields", specificErrors);
+            throw new ModelException("There is empty fields", specificErrors);
         }
     }
 

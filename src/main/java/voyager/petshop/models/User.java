@@ -2,6 +2,8 @@ package voyager.petshop.models;
 
 import java.util.UUID;
 
+import voyager.petshop.models.interfaces.IModel;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +18,7 @@ import voyager.petshop.models.enums.UserRoles;
 @Table(name = "users")
 @Getter
 @Setter
-public class User {
+public class User implements IModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
