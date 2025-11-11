@@ -3,16 +3,16 @@
 <head th:fragment="head(title, pageStyles)">
   <meta charset="UTF-8">
   <title th:text="${title}"></title>
-  <!--<link rel="icon" type="image/x-icon" href="/static/img/favicon.ico">--> <!--Future Idea-->
+  <link rel="icon" type="image/x-icon" th:href="@{/img/VoyagerMiniLogo.svg}">
   <script src="https://cdn.tailwindcss.com"></script> <!--Customization with Tailwind-->
   <!-- espaço opcional para CSS específico da página -->
   <th:block th:insert="${pageStyles} ?: ~{}"></th:block>
 </head>
 <!-- Fragmento com “slot” -->
 <th:block th:fragment="layout(content, pageScripts)">
-    <body>
+    <body class="font-sans">
         <header th:replace="~{fragments/header :: header}"></header>
-        <div class="min-h-screen bg-gradient-to-br from-amber-50 via-white to-amber-100 flex flex-col items-center justify-center px-4">
+        <div class="min-h-screen bg-gradient-to-br from-amber-200 via-white to-amber-100 flex flex-col items-center justify-center px-4">
             <main th:replace="${content}">
                 <!-- aqui entra o conteúdo da página -->
             </main>

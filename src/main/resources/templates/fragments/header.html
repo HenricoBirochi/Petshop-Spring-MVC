@@ -1,18 +1,38 @@
 <header th:fragment="header">
     <div class="flex justify-between items-center w-full bg-amber-500 p-4">
-        <h1 class="text-3xl font-bold"><a href="/">Voyager</a></h1>
+        <h1><a href="/"><img th:src="@{/img/VoyagerLogo.svg}" alt="Voyager Logo"></a></h1>
 <!--        <div> <!-- TODO: Hear is going to hava the search products feature \-\-\>
             <form th:action="${/}" method="POST">
                 
             </form>
         </div>-->
         <div>
-            <a href="/product/all-products" class="bg-white py-2 px-4 hover:bg-amber-300 rounded-sm">All Products</a>
-            <a href="/product/add" class="bg-white py-2 px-4 hover:bg-amber-300 rounded-sm">Create a Product</a>
+            <a href="/product/all-products">
+                <button 
+                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
+                    All Products
+                </button>
+            </a>
+            <a href="/product/add">
+                <button
+                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
+                    Create Product
+                </button>
+            </a>
         </div>
         <div>
-            <a href="/user/sign-up" class="bg-white py-2 px-4 hover:bg-amber-300 rounded-sm">Sign Up</a>
-            <a href="/user/sign-in" class="bg-white py-2 px-4 hover:bg-amber-300 rounded-sm">Sign In</a>
+            <a href="/user/sign-up">
+                <button
+                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
+                    Sign Up
+                </button>
+            </a>
+            <a href="/user/sign-in">
+                <button
+                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
+                    Sign In
+                </button>
+            </a>
         </div>
     </div>
 </header>
