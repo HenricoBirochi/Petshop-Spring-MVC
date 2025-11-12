@@ -1,11 +1,12 @@
 <header th:fragment="header">
     <div class="flex justify-between items-center w-full bg-amber-500 p-4">
-        <h1><a href="/"><img th:src="@{/img/VoyagerLogo.svg}" alt="Voyager Logo"></a></h1>
-<!--        <div> <!-- TODO: Hear is going to hava the search products feature \-\-\>
+        <div>
+            <a href="/"><img th:src="@{/img/VoyagerLogo.svg}" alt="Voyager Logo"></a>
+            <!-- TODO: Hear is going to have the search products feature \-\-\>
             <form th:action="${/}" method="POST">
                 
-            </form>
-        </div>-->
+            </form>-->
+        </div>
         <div>
             <a href="/product/all-products">
                 <button 
@@ -31,6 +32,12 @@
                 <button
                     class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
                     Sign In
+                </button>
+            </a>
+            <a href="/about">
+                <button 
+                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
+                    About Us
                 </button>
             </a>
         </div>

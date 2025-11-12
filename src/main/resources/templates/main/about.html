@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+    <!-- Define head variables -->
+    <th:block th:insert="~{layout :: head('About', ~{::pageStyles})}"></th:block>
+
+    <!-- truque: trocamos o root por um replace no layout -->
+    <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
+        <main th:fragment="content">
+            <h1>Welcome to the home page</h1>
+            <p>We are happy that you had interest in our history</p>
+        </main>
+    </th:block>
+</html>
