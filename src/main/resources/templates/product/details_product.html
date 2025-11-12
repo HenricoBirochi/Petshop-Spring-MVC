@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+    <!-- Define head variables -->
+    <th:block th:insert="~{layout :: head('Product Details', ~{::pageStyles})}"></th:block>
+
+    <!-- truque: trocamos o root por um replace no layout -->
+    <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
+        <main th:fragment="content">
+        </main>
+    </th:block>
+</html>

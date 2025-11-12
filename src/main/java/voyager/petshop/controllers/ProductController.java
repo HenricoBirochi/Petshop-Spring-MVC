@@ -1,6 +1,7 @@
 package voyager.petshop.controllers;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,9 @@ import voyager.petshop.services.ProductValidationService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 
 
 @Controller
@@ -32,6 +35,20 @@ public class ProductController {
         ModelAndView mv = new ModelAndView("product/all_products");
         var products = productRepository.findAll();
         mv.addObject("products", products);
+        return mv;
+    }
+
+    @GetMapping("/details/{id}")
+    public ModelAndView getMethodName(@PathVariable UUID id) {
+        var mv = new ModelAndView("product/details_product");
+        var product = new Product();
+
+        if(id != null)
+            product = productRepository.findByProductId(id);
+        if(product == null)
+            product = new Product();
+
+        mv.addObject("product", product);
         return mv;
     }
 

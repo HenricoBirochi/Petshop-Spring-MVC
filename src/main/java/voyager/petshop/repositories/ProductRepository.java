@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 import voyager.petshop.models.Product;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, UUID> {}
+public interface ProductRepository extends JpaRepository<Product, UUID> {
+    Product findByProductId(UUID productId);
+}

@@ -11,6 +11,8 @@
                         <div class="border-hidden" th:text="${product.getName}"></div>
                         <div class="border-hidden" th:text="'R$ '+${product.getPrice}"></div>
                         <div class="border-hidden" th:text="${product.getStockQuantity}"></div>
+                        <div class=""><a th:href="@{/product/details/{id}(id=${product.getProductId})}"><button>See Details</button></a></div>
+                        <div class=""><a th:href="@{/}"><button>Add to Cart</button></a></div>
                     </div>
                 </div>
             </div>
