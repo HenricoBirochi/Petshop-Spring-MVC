@@ -24,6 +24,9 @@ public class ProductImage {
     @Column(name = "file_name", nullable = false)
     private String fileName;
 
+    @Column(name = "file_extension", nullable = false)
+    private String fileExtension;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

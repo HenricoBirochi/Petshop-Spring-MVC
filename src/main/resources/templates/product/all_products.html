@@ -7,11 +7,14 @@
             <div class="mx-auto flex flex-col max-w-7xl items-center rounded-xl p-6">
                 <h1>All Products</h1>
                 <div class="border-2 border-solid border-amber-200 bg-amber-100 rounded-xl p-6 grid grid-cols-4 gap-4">
-                    <div th:each="product : ${products}" class="border border-solid bg-slate-100 rounded-xl p-3">
-                        <div class="border-hidden" th:text="${product.getName}"></div>
-                        <div class="border-hidden" th:text="'R$ '+${product.getPrice}"></div>
-                        <div class="border-hidden" th:text="${product.getStockQuantity}"></div>
-                        <div class=""><a th:href="@{/product/details/{id}(id=${product.getProductId})}"><button>See Details</button></a></div>
+                    <div th:each="product : ${products}"  class="border border-solid bg-slate-100 rounded-xl p-3">
+                        <div class="border-hidden" th:text="${product.name}"></div>
+                        <div class="border-hidden" th:text="'R$ '+${product.price}"></div>
+                        <div class="border-hidden" th:text="${product.stockQuantity}"></div>
+                        <div>
+                            <img th:src="@{|/uploads/${product.productImages[0].productImageId}${product.productImages[0].fileExtension}|}" alt="Imagem do Produto">
+                        </div>
+                        <div class=""><a th:href="@{/product/details/{id}(id=${product.productId})}"><button>See Details</button></a></div>
                         <div class=""><a th:href="@{/}"><button>Add to Cart</button></a></div>
                     </div>
                 </div>

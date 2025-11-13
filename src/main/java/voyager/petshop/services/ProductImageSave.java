@@ -35,6 +35,7 @@ public class ProductImageSave {
             ProductImage productImage = new ProductImage();
             productImage.setProductImageId(newImageName);
             productImage.setFileName(originalFileName);
+            productImage.setFileExtension(imageExtension);
             productImage.setProduct(product);
             productImageRepository.save(productImage);
         }

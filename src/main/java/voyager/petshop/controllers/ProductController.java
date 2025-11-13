@@ -37,12 +37,13 @@ public class ProductController {
 
     private final IModelsValidationService iModelsValidationService = new ProductValidationService();
 
-    private final String uploadDir = "src/main/resources/static/img/uploads";
+    private final String uploadDir = "src/main/resources/static/uploads";
 
     @GetMapping("/all-products")
     public ModelAndView showAllProducts() {
         ModelAndView mv = new ModelAndView("product/all_products");
-        var products = productRepository.findAll();
+        List<Product> products = productRepository.findAll();
+
         mv.addObject("products", products);
         return mv;
     }
