@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.models.Product;
 import voyager.petshop.models.interfaces.IModel;
 import voyager.petshop.services.interfaces.IModelsValidationService;
 
-@Component
+@Service
 public class ProductValidationService implements IModelsValidationService {
 
     @Override

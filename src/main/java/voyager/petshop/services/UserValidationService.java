@@ -3,7 +3,7 @@ package voyager.petshop.services;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.models.User;
@@ -11,7 +11,7 @@ import voyager.petshop.models.interfaces.IModel;
 import voyager.petshop.repositories.UserRepository;
 import voyager.petshop.services.interfaces.IModelsValidationService;
 
-@Component
+@Service
 public class UserValidationService implements IModelsValidationService {
 
     private final UserRepository repository;

@@ -6,6 +6,12 @@
     <!-- truque: trocamos o root por um replace no layout -->
     <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
         <main th:fragment="content">
+            <div>
+                <div th:text="${product.getName}"></div>
+                <div th:text="${product.getDescription}"></div>
+                <div th:text="${product.getPrice}"></div>
+                <div th:text="${product.getStockQuantity}"></div>
+            </div>
         </main>
     </th:block>
 </html>

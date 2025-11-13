@@ -34,3 +34,6 @@ build/
 
 # Data Base
 db_data/
+
+# Upload Images
+uploads/
