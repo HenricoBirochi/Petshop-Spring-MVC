@@ -10,6 +10,9 @@
                 <div th:text="${product.getName}"></div>
                 <div th:text="${product.getDescription}"></div>
                 <div th:text="${product.getPrice}"></div>
+                <div th:each="image : ${product.productImages}">
+                    <img th:src="@{|/uploads/${image.productImageId}${image.fileExtension}|}" alt="Imagem do Produto" class="bg-size-[auto_100px]">
+                </div>
                 <div th:text="${product.getStockQuantity}"></div>
             </div>
         </main>

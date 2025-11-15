@@ -12,7 +12,7 @@
                         <div class="border-hidden" th:text="'R$ '+${product.price}"></div>
                         <div class="border-hidden" th:text="${product.stockQuantity}"></div>
                         <div>
-                            <img th:src="@{|/uploads/${product.productImages[0].productImageId}${product.productImages[0].fileExtension}|}" alt="Imagem do Produto">
+                            <img th:src="@{|/uploads/${product.productImages[0].productImageId}${product.productImages[0].fileExtension}|}" alt="Imagem do Produto" class="bg-size-[auto_100px]">
                         </div>
                         <div class=""><a th:href="@{/product/details/{id}(id=${product.productId})}"><button>See Details</button></a></div>
                         <div class=""><a th:href="@{/}"><button>Add to Cart</button></a></div>
