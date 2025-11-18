@@ -6,6 +6,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,11 +21,6 @@ import voyager.petshop.repositories.ProductRepository;
 import voyager.petshop.services.ProductImageSave;
 import voyager.petshop.services.ProductValidationService;
 import voyager.petshop.services.interfaces.IModelsValidationService;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 
 
@@ -80,7 +79,7 @@ public class ProductController {
     @PostMapping("/add")
     public ModelAndView addProduct(@ModelAttribute("product") Product product,
                                    @RequestParam("Images") List<MultipartFile> Images) {
-        ModelAndView mv = new ModelAndView("");
+        ModelAndView mv;
         try {
             if(product != null) {
                 iModelsValidationService.modelValidatingEmptyFields(product);

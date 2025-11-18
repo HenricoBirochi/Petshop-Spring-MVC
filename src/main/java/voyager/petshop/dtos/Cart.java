@@ -10,15 +10,21 @@ import lombok.Setter;
 @Setter
 public class Cart {
 
-    private Long cartId;
-
     private List<CartItem> cartItems;
 
-    public BigDecimal getTotalPriceCart() {
-        BigDecimal totalPriceCart = BigDecimal.ZERO;
-        for (int i = 0; i < cartItems.size(); i++) {
-            BigDecimal item = cartItems.get(i).getTotalPriceItem();
-            if(item == null || item == BigDecimal.ZERO)
+    private BigDecimal totalPriceCart;
+
+    public Cart() {}
+
+    public Cart(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public BigDecimal setAndGetTotalPriceCart() {
+        totalPriceCart = BigDecimal.ZERO;
+        for (CartItem cartItem : cartItems) {
+            BigDecimal item = cartItem.getTotalPriceItem();
+            if (item == null || item.equals(BigDecimal.ZERO))
                 continue;
             totalPriceCart = totalPriceCart.add(item);
         }
