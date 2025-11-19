@@ -54,7 +54,7 @@ public class UserController {
                 userValidationService.modelValidatingEmptyFields(user);
                 userValidationService.modelValidatingIfExists(user);
                 // Set the User Role
-                user.setUserRole(UserRoles.Client);
+                // user.setUserRole(UserRoles.Client);
                 userRepository.save(user);
                 mv = new ModelAndView("redirect:/");
                 return mv;
