@@ -25,12 +25,4 @@ public class ExceptionHandlerController {
         return mv;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleGeneralExceptions(Exception ex) {
-        ModelAndView mv = new ModelAndView("error/error");
-        String error = ex.getMessage();
-        mv.addObject("error", error);
-        return mv;
-    }
-
 }
