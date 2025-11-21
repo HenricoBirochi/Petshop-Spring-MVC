@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.HttpServletRequest;
+import voyager.petshop.authentication.VerifyIfIsAdmin;
 import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.models.Product;
 import voyager.petshop.repositories.ProductRepository;
-import voyager.petshop.services.ProductImageSave;
-import voyager.petshop.services.ProductValidationService;
-import voyager.petshop.services.interfaces.IModelsValidationService;
+import voyager.petshop.services.ProductImageSaveService;
+import voyager.petshop.services.models.IModelsValidationService;
 
 
 
@@ -32,9 +34,11 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @Autowired
-    private ProductImageSave productImageSave;
+    private ProductImageSaveService productImageSaveService;
 
-    private final IModelsValidationService iModelsValidationService = new ProductValidationService();
+    @Autowired
+    @Qualifier("productValidator")
+    private IModelsValidationService iModelsValidationService;
 
     private final String uploadDir = "src/main/resources/static/uploads";
 
@@ -48,7 +52,7 @@ public class ProductController {
     }
 
     @GetMapping("/details/{id}")
-    public ModelAndView getMethodName(@PathVariable UUID id) {
+    public ModelAndView showDetailsProduct(@PathVariable UUID id) {
         var mv = new ModelAndView("product/details_product");
         var product = new Product();
 
@@ -61,9 +65,11 @@ public class ProductController {
         return mv;
     }
 
+    @VerifyIfIsAdmin
     @GetMapping("/add")
     public ModelAndView addProductView(@ModelAttribute("product") Product product,
-                                       @ModelAttribute("exception") ModelException exception) {
+                                       @ModelAttribute("exception") ModelException exception,
+                                       HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("product/add_product");
 
         if (product == null)
@@ -76,15 +82,17 @@ public class ProductController {
         return mv;
     }
 
+    @VerifyIfIsAdmin
     @PostMapping("/add")
     public ModelAndView addProduct(@ModelAttribute("product") Product product,
-                                   @RequestParam("Images") List<MultipartFile> Images) {
+                                   @RequestParam("Images") List<MultipartFile> Images,
+                                   HttpServletRequest request) throws Exception {
         ModelAndView mv;
         try {
             if(product != null) {
                 iModelsValidationService.modelValidatingEmptyFields(product);
                 productRepository.save(product);
-                productImageSave.saveImageInDB(Images, product, uploadDir);
+                productImageSaveService.saveImageInDB(Images, product, uploadDir);
                 mv = new ModelAndView("redirect:/");
                 return mv;
             }
@@ -92,17 +100,9 @@ public class ProductController {
             mv = new ModelAndView("redirect:/product/add");
             return mv;
         }
-        catch(ModelException exception) {
+        catch (ModelException exception) {
             mv = new ModelAndView("product/add_product");
             mv.addObject("exception", exception);
-            mv.addObject("product", product);
-            return mv;
-        }
-        catch(Exception exception) {
-            System.out.println(exception.getMessage());
-            mv = new ModelAndView("product/add_product");
-            product = new Product();
-
             mv.addObject("product", product);
             return mv;
         }

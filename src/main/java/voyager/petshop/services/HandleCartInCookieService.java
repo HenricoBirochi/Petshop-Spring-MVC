@@ -58,6 +58,8 @@ public class HandleCartInCookieService {
         return objectMapper.readValue(decodedJson, Cart.class);
     }
 
+    // This methods below are hear because you can save data in cookie only if that data is encoded
+
     public String encodeString(String json) {
         return Base64.getUrlEncoder().encodeToString(json.getBytes(StandardCharsets.UTF_8));
     }

@@ -55,7 +55,6 @@ public class CartController {
         var mv = new ModelAndView("redirect:/cart/view");
 
         Product product = productRepository.findByProductId(productId);
-
         CartItem cartItem = new CartItem(product, quantity);
 
         try {

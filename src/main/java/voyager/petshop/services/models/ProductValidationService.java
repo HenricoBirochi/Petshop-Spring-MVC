@@ -1,4 +1,4 @@
-package voyager.petshop.services;
+package voyager.petshop.services.models;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.models.Product;
 import voyager.petshop.models.interfaces.IModel;
-import voyager.petshop.services.interfaces.IModelsValidationService;
 
-@Service
+@Service("productValidator")
 public class ProductValidationService implements IModelsValidationService {
 
     @Override

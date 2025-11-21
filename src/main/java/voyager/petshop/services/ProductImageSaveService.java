@@ -15,16 +15,15 @@ import voyager.petshop.models.ProductImage;
 import voyager.petshop.repositories.ProductImageRepository;
 
 @Service
-public class ProductImageSave {
+public class ProductImageSaveService {
 
     @Autowired
     private ProductImageRepository productImageRepository;
 
     public void saveImageInDB(List<MultipartFile> productImages, Product product, String uploadDir) throws Exception {
-        for(int i = 0; i < productImages.size(); i++) {
-            MultipartFile image = productImages.get(i);
+        for (MultipartFile image : productImages) {
             String originalFileName = image.getOriginalFilename();
-            if(originalFileName == null)
+            if (originalFileName == null)
                 throw new Exception("originalFileName variable is empty or null");
             String imageExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
             UUID newImageName = UUID.randomUUID();

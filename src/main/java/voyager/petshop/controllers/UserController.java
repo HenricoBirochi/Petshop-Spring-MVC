@@ -3,7 +3,11 @@ package voyager.petshop.controllers;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,11 +18,8 @@ import voyager.petshop.exceptions.WrongCredentialsException;
 import voyager.petshop.models.User;
 import voyager.petshop.models.enums.UserRoles;
 import voyager.petshop.repositories.UserRepository;
-import voyager.petshop.services.UserValidationService;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import voyager.petshop.services.SessionLoginService;
+import voyager.petshop.services.models.IModelsValidationService;
 
 
 @Controller
@@ -29,7 +30,11 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private UserValidationService userValidationService;
+    @Qualifier("userValidator")
+    private IModelsValidationService iModelsValidationService;
+
+    @Autowired
+    private SessionLoginService sessionLoginService;
 
     @GetMapping("/sign-up")
     public ModelAndView signUpPage(@ModelAttribute("user") User user,
@@ -48,13 +53,12 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public ModelAndView signUpPageForm(@ModelAttribute("user") User user) {
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv;
         try {
             if (user != null) {
-                userValidationService.modelValidatingEmptyFields(user);
-                userValidationService.modelValidatingIfExists(user);
-                // Set the User Role
-                // user.setUserRole(UserRoles.Client);
+                iModelsValidationService.modelValidatingEmptyFields(user);
+                iModelsValidationService.modelValidatingIfExists(user);
+                user.setUserRole(UserRoles.USER);
                 userRepository.save(user);
                 mv = new ModelAndView("redirect:/");
                 return mv;
@@ -85,34 +89,10 @@ public class UserController {
     @PostMapping("/sign-in")
     public ModelAndView signInPageForm(@ModelAttribute("loginForm") LoginForm loginForm,
                                        HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView();
-        User user = new User();
+        ModelAndView mv = new ModelAndView("redirect:/");
 
         try {
-
-            boolean isEmail = loginForm.getCredential().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
-
-            if (isEmail) {
-                user = userRepository.findByEmail(loginForm.getCredential());
-                if (user != null && user.getPassword().equals(loginForm.getPassword())) {
-                    var session = request.getSession();
-                    session.setAttribute("user", user);
-
-                    mv = new ModelAndView("redirect:/");
-                    return mv;
-                }
-            }
-            else {
-                user = userRepository.findByUserName(loginForm.getCredential());
-                if (user != null && user.getPassword().equals(loginForm.getPassword())) {
-                    var session = request.getSession();
-                    session.setAttribute("user", user);
-
-                    mv = new ModelAndView("redirect:/");
-                    return mv;
-                }
-            }
-            throw new WrongCredentialsException("Credentials are wrong or you don't have an account");
+            mv = sessionLoginService.verifyUserFormCredentials(loginForm, request);
         }
         catch(WrongCredentialsException exception) {
             mv.setViewName("user/sign_in");
@@ -120,6 +100,7 @@ public class UserController {
             mv.addObject("loginForm", loginForm);
             return mv;
         }
+        return mv;
     }
 
 }

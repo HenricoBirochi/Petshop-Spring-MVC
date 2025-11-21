@@ -1,4 +1,4 @@
-package voyager.petshop.services.interfaces;
+package voyager.petshop.services.models;
 
 import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.models.interfaces.IModel;

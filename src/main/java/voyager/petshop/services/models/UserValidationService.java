@@ -1,24 +1,21 @@
-package voyager.petshop.services;
+package voyager.petshop.services.models;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.models.User;
 import voyager.petshop.models.interfaces.IModel;
 import voyager.petshop.repositories.UserRepository;
-import voyager.petshop.services.interfaces.IModelsValidationService;
 
-@Service
+@Service("userValidator")
 public class UserValidationService implements IModelsValidationService {
 
-    private final UserRepository repository;
-
-    public UserValidationService(UserRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private UserRepository repository;
 
     @Override
     public void modelValidatingIfExists(IModel model) throws ModelException {
