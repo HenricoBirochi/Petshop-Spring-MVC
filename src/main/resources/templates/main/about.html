@@ -1,13 +1,136 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
-    <!-- Define head variables -->
-    <th:block th:insert="~{layout :: head('About', ~{::pageStyles})}"></th:block>
+  <!-- Define head variables -->
+  <th:block th:insert="~{layout :: head('About', ~{::pageStyles})}"></th:block>
 
-    <!-- truque: trocamos o root por um replace no layout -->
-    <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
-        <main th:fragment="content">
-            <h1>Welcome to the home page</h1>
-            <p>We are happy that you had interest in our history</p>
-        </main>
-    </th:block>
+  <!-- truque: trocamos o root por um replace no layout -->
+  <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
+    <main th:fragment="content" class="w-full">
+      <!-- About Section -->
+      <section class="w-full py-12 px-6">
+        <div class="max-w-4xl mx-auto space-y-12">
+          <!-- Header -->
+          <div class="text-center space-y-3">
+            <div
+              class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+              style="background-color: #73e5e2; color: #394f87"
+            >
+              ✨ Our Story
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold" style="color: #394f87">
+              About <span style="color: #fabb4d">Voyager Petshop</span>
+            </h1>
+            <p
+              class="text-sm max-w-2xl mx-auto"
+              style="color: #394f87; opacity: 0.8"
+            >
+              Quality products and dedicated care for your best friend
+            </p>
+          </div>
+
+          <!-- Content Grid -->
+          <div class="grid md:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div
+              class="p-6 rounded-xl space-y-3"
+              style="background-color: #fbdc8e"
+            >
+              <div class="text-4xl">🎯</div>
+              <h3 class="text-lg font-semibold" style="color: #394f87">
+                Our Mission
+              </h3>
+              <p
+                class="text-sm leading-relaxed"
+                style="color: #394f87; opacity: 0.8"
+              >
+                Provide quality products and exceptional service to ensure the
+                happiness and well-being of your pets.
+              </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+              class="p-6 rounded-xl space-y-3"
+              style="background-color: #73e5e2"
+            >
+              <div class="text-4xl">💎</div>
+              <h3 class="text-lg font-semibold" style="color: #394f87">
+                Our Values
+              </h3>
+              <p
+                class="text-sm leading-relaxed"
+                style="color: #394f87; opacity: 0.8"
+              >
+                Love for animals, quality in every product, and commitment to
+                customer satisfaction.
+              </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div
+              class="p-6 rounded-xl space-y-3"
+              style="background-color: #fb958e"
+            >
+              <div class="text-4xl">🌟</div>
+              <h3 class="text-lg font-semibold" style="color: #394f87">
+                Our Vision
+              </h3>
+              <p
+                class="text-sm leading-relaxed"
+                style="color: #394f87; opacity: 0.8"
+              >
+                To be the leading pet care destination, trusted by pet owners
+                everywhere.
+              </p>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-6 py-8">
+            <div class="text-center space-y-1">
+              <div class="text-3xl font-bold" style="color: #fabb4d">500+</div>
+              <div class="text-xs" style="color: #394f87; opacity: 0.8">
+                Products
+              </div>
+            </div>
+            <div class="text-center space-y-1">
+              <div class="text-3xl font-bold" style="color: #73e5e2">1000+</div>
+              <div class="text-xs" style="color: #394f87; opacity: 0.8">
+                Happy Customers
+              </div>
+            </div>
+            <div class="text-center space-y-1">
+              <div class="text-3xl font-bold" style="color: #fb958e">5+</div>
+              <div class="text-xs" style="color: #394f87; opacity: 0.8">
+                Years Experience
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="text-center space-y-4 py-8">
+            <h2 class="text-2xl font-bold" style="color: #394f87">
+              Ready to explore?
+            </h2>
+            <div class="flex gap-3 justify-center">
+              <a
+                th:href="@{/product}"
+                class="px-5 py-2 rounded-lg text-sm font-medium text-white transition-all hover:opacity-90"
+                style="background-color: #fabb4d"
+              >
+                View Products
+              </a>
+              <a
+                th:href="@{/}"
+                class="px-5 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-90"
+                style="background-color: #fbdc8e; color: #394f87"
+              >
+                Back to Home
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </th:block>
 </html>

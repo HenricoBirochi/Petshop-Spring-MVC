@@ -1,46 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
-    <!-- Define head variables -->
-    <th:block th:insert="~{layout :: head('Home', ~{::pageStyles})}"></th:block>
+  <!-- Define head variables -->
+  <th:block th:insert="~{layout :: head('Home', ~{::pageStyles})}"></th:block>
 
-    <!-- truque: trocamos o root por um replace no layout -->
-    <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
-        <main th:fragment="content" class="w-full max-w-md">
-            <div class="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl overflow-hidden">
-                <div class="px-8 py-6 bg-amber-500">
-                    <h1 class="text-white text-2xl font-extrabold">Welcome Back</h1>
-                    <p class="text-amber-100 text-sm mt-1">Log-in with your account to continue</p>
-                </div>
+  <!-- truque: trocamos o root por um replace no layout -->
+  <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
+    <main th:fragment="content" class="w-full max-w-sm">
+      <div class="space-y-6">
+        <!-- Header -->
+        <div class="text-center space-y-2">
+          <div
+            class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+            style="background-color: #73e5e2; color: #394f87"
+          >
+            🐾 Welcome
+          </div>
+          <h1 class="text-3xl font-bold" style="color: #394f87">Sign in</h1>
+          <p class="text-xs" style="color: #394f87; opacity: 0.7">
+            Log in to continue
+          </p>
+        </div>
 
-                <div class="px-8 py-8">
-                    <form method="POST" th:action="@{/user/sign-in}" th:object="${loginForm}" class="space-y-6">
-                        <div>
-                            <label for="credential" class="block text-sm font-semibold text-gray-700">User or Email</label>
-                            <input id="credential" th:field="*{credential}" required type="text" placeholder="User or Email"
-                                   class="mt-2 block w-full rounded-lg border border-gray-200 px-4 py-3 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300 transition" />
-                        </div>
+        <!-- Form -->
+        <form
+          method="POST"
+          th:action="@{/user/sign-in}"
+          th:object="${loginForm}"
+          class="space-y-4"
+        >
+          <div>
+            <label
+              for="credential"
+              class="block text-xs font-medium mb-1"
+              style="color: #394f87"
+              >Username or Email</label
+            >
+            <input
+              id="credential"
+              th:field="*{credential}"
+              required
+              type="text"
+              placeholder="Enter your username or email"
+              class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition"
+              style="
+                border: 1px solid rgba(57, 79, 135, 0.2);
+                background-color: white;
+              "
+            />
+          </div>
 
-                        <div>
-                            <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
-                            <input id="password" th:field="*{password}" required type="password" placeholder="••••••••"
-                                   class="mt-2 block w-full rounded-lg border border-gray-200 px-4 py-3 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300 transition" />
-                        </div>
+          <div>
+            <label
+              for="password"
+              class="block text-xs font-medium mb-1"
+              style="color: #394f87"
+              >Password</label
+            >
+            <input
+              id="password"
+              th:field="*{password}"
+              required
+              type="password"
+              placeholder="••••••••"
+              class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition"
+              style="
+                border: 1px solid rgba(57, 79, 135, 0.2);
+                background-color: white;
+              "
+            />
+          </div>
 
-                        <div>
-                            <p th:text="${exception.message}"
-                               class="mt-2 text-xs text-red-600 font-semibold">
-                            </p>
-                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 hover:bg-orange-400 text-white font-semibold px-4 py-3 shadow-md transition-transform active:scale-95">Log-in</button>
-                        </div>
+          <p
+            th:text="${exception.message}"
+            class="text-xs text-red-600 font-semibold"
+          ></p>
 
-                        <div class="text-center text-sm text-gray-600">
-                            <span>You don't have an account?</span>
-                            <a href="/user/sign-up" class="text-amber-500 font-medium hover:underline ml-1">Sign-up</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <p class="mt-6 text-center text-xs text-gray-400">When log-in, you agree with our use terms</p>
-        </main>
-    </th:block>
+          <button
+            type="submit"
+            class="w-full rounded-lg text-white text-sm font-semibold px-4 py-2.5 transition-all hover:opacity-90"
+            style="background-color: #fabb4d"
+          >
+            Sign in
+          </button>
+
+          <p class="text-center text-xs" style="color: #394f87; opacity: 0.7">
+            Don't have an account?
+            <a
+              href="/user/sign-up"
+              class="font-medium hover:underline"
+              style="color: #fabb4d"
+              >Sign up</a
+            >
+          </p>
+        </form>
+
+        <p class="text-center text-xs" style="color: #394f87; opacity: 0.5">
+          By signing in, you agree with our terms of use
+        </p>
+      </div>
+    </main>
+  </th:block>
 </html>

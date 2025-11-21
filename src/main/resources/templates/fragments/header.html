@@ -1,51 +1,158 @@
 <header th:fragment="header">
-    <div class="flex justify-between items-center w-full bg-amber-500 p-4">
-        <div>
-            <a href="/"><img th:src="@{/img/VoyagerLogo.svg}" alt="Voyager Logo"></a>
-            <!-- TODO: Hear is going to have the search products feature \-\-\>
-            <form th:action="${/}" method="POST">
-                
-            </form>-->
+  <div class="bg-white border-b header-root mb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Left: brand -->
+        <div class="flex items-center gap-4">
+          <a href="/" class="flex items-center gap-3">
+            <img
+              th:src="@{/img/petshop-logo.svg}"
+              alt="PETSHOP"
+              class="h-8 w-auto"
+            />
+            <span class="sr-only">PETSHOP</span>
+          </a>
+          <nav class="hidden md:flex items-center gap-3 text-sm text-slate-600">
+            <a
+              href="/product/all-products"
+              class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
+            >
+              <span>Products</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 transform transition-transform duration-200 group-hover:translate-x-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            </a>
+
+            <a
+              href="/product/add"
+              class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
+            >
+              <span>Create Product</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 transform transition-transform duration-200 group-hover:translate-x-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            </a>
+
+            <a
+              href="/about"
+              class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
+            >
+              <span>About</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 transform transition-transform duration-200 group-hover:translate-x-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            </a>
+          </nav>
         </div>
-        <div>
-            <a href="/product/all-products">
-                <button 
-                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
-                    All Products
-                </button>
-            </a>
-            <a href="/product/add">
-                <button
-                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
-                    Create Product
-                </button>
-            </a>
+
+        <!-- Right: actions -->
+        <div class="flex items-center gap-3">
+          <a
+            href="/cart/view"
+            class="p-2 rounded-md text-slate-600 hover:bg-slate-50"
+            aria-label="Cart"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-shopping-cart"
+            >
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path
+                d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+              ></path>
+            </svg>
+          </a>
+
+          <a
+            href="/user/sign-in"
+            class="p-2 rounded-md text-slate-600 hover:bg-slate-50"
+            aria-label="Sign in"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-user"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M4 21v-2a4 4 0 0 1 3-3.87"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+
+          <a
+            href="/user/sign-up"
+            class="px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:text-slate-900 text-sm font-medium bg-[var(--petshop-200)] hover:bg-[var(--petshop-500)]"
+            >Sign Up</a
+          >
         </div>
-        <div>
-            <a href="/user/sign-up">
-                <button
-                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
-                    Sign Up
-                </button>
-            </a>
-            <a href="/user/sign-in">
-                <button
-                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
-                    Sign In
-                </button>
-            </a>
-            <a href="/cart/view">
-                <button
-                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
-                    Cart
-                </button>
-            </a>
-            <a href="/about">
-                <button 
-                    class="bg-slate-200 py-2 px-4 rounded-lg shadow-xl transform transition delay-50 duration-700 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-amber-300">
-                    About Us
-                </button>
-            </a>
-        </div>
+      </div>
     </div>
+  </div>
 </header>
+
+<style>
+  .header-cta {
+    background: var(--petshop-200);
+    color: #111827;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.375rem;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .header-cta:hover {
+    background: var(--petshop-500);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  /* make nav link hover slightly more pronounced and rounded to match */
+  .group:hover {
+    background-color: rgba(15, 23, 42, 0.04); /* subtle darken */
+  }
+</style>

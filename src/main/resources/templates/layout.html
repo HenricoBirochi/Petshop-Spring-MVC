@@ -1,26 +1,133 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head(title, pageStyles)">
-  <meta charset="UTF-8">
-  <title th:text="${title}"></title>
-  <link rel="icon" type="image/x-icon" th:href="@{/img/VoyagerMiniLogo.svg}">
-  <script src="https://cdn.tailwindcss.com"></script> <!--Customization with Tailwind-->
-  <!-- espaço opcional para CSS específico da página -->
-  <th:block th:insert="${pageStyles} ?: ~{}"></th:block>
-</head>
-<!-- Fragmento com “slot” -->
-<th:block th:fragment="layout(content, pageScripts)">
-    <body class="font-sans">
-        <header th:replace="~{fragments/header :: header}"></header>
-        <div class="min-h-screen bg-gradient-to-br from-amber-200 via-white to-amber-100 flex flex-col items-center justify-center px-4">
-            <main th:replace="${content}">
-                <!-- aqui entra o conteúdo da página -->
-            </main>
+  <head th:fragment="head(title, pageStyles)">
+    <meta charset="UTF-8" />
+    <title th:text="${title}"></title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      th:href="@{/img/VoyagerMiniLogo.svg}"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!--Customization with Tailwind-->
+    <!-- espaço opcional para CSS específico da página -->
+    <th:block th:insert="${pageStyles} ?: ~{}"></th:block>
+  </head>
+  <!-- Fragmento com “slot” -->
+  <th:block th:fragment="layout(content, pageScripts)">
+    <body
+      class="font-sans"
+      style="
+        --petshop-200: #fbdc8e;
+        --petshop-500: #fabb4d;
+        --petshop-teal-500: #73e5e2;
+        --petshop-teal-700: #394f87;
+        --petshop-red-500: #fb958e;
+      "
+    >
+      <header th:replace="~{fragments/header :: header}"></header>
+      <div
+        class="min-h-screen flex flex-col items-center justify-center px-4 max-w-6xl mx-auto"
+      >
+        <main th:replace="${content}">
+          <!-- aqui entra o conteúdo da página -->
+        </main>
 
-            <footer class="mt-4">© 2025</footer>
-            <!-- espaço opcional para JS específico da página -->
-            <th:block th:insert="${pageScripts} ?: ~{}"></th:block>
-        </div>
+        <footer
+          class="w-full mt-16 py-8 border-t"
+          style="border-color: rgba(57, 79, 135, 0.1)"
+        >
+          <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-6">
+              <!-- Company Info -->
+              <div class="space-y-3">
+                <h3 class="text-base font-semibold" style="color: #394f87">
+                  Voyager Petshop
+                </h3>
+                <p
+                  class="text-xs leading-relaxed"
+                  style="color: #394f87; opacity: 0.7"
+                >
+                  Quality products and dedicated care for your best friend since
+                  2025.
+                </p>
+              </div>
+
+              <!-- Quick Links -->
+              <div class="space-y-3">
+                <h3 class="text-base font-semibold" style="color: #394f87">
+                  Quick Links
+                </h3>
+                <div class="flex flex-col gap-2">
+                  <a
+                    th:href="@{/}"
+                    class="text-xs transition-opacity hover:opacity-70"
+                    style="color: #394f87; opacity: 0.7"
+                    >Home</a
+                  >
+                  <a
+                    th:href="@{/product/all-products}"
+                    class="text-xs transition-opacity hover:opacity-70"
+                    style="color: #394f87; opacity: 0.7"
+                    >Products</a
+                  >
+                  <a
+                    th:href="@{/about}"
+                    class="text-xs transition-opacity hover:opacity-70"
+                    style="color: #394f87; opacity: 0.7"
+                    >About Us</a
+                  >
+                  <a
+                    th:href="@{/cart}"
+                    class="text-xs transition-opacity hover:opacity-70"
+                    style="color: #394f87; opacity: 0.7"
+                    >Cart</a
+                  >
+                </div>
+              </div>
+
+              <!-- Contact -->
+              <div class="space-y-3">
+                <h3 class="text-base font-semibold" style="color: #394f87">
+                  Follow Us
+                </h3>
+                <div class="flex gap-3">
+                  <div
+                    class="w-8 h-8 rounded-lg flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                    style="background-color: #fbdc8e"
+                  >
+                    <span class="text-sm">🐕</span>
+                  </div>
+                  <div
+                    class="w-8 h-8 rounded-lg flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                    style="background-color: #73e5e2"
+                  >
+                    <span class="text-sm">🐈</span>
+                  </div>
+                  <div
+                    class="w-8 h-8 rounded-lg flex items-center justify-center transition-transform hover:scale-110 cursor-pointer"
+                    style="background-color: #fb958e"
+                  >
+                    <span class="text-sm">🐦</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Copyright -->
+            <div
+              class="pt-6 border-t text-center"
+              style="border-color: rgba(57, 79, 135, 0.1)"
+            >
+              <p class="text-xs" style="color: #394f87; opacity: 0.6">
+                CEFSA Students © 2025 • Made with 💛 for pets
+              </p>
+            </div>
+          </div>
+        </footer>
+        <!-- espaço opcional para JS específico da página -->
+        <th:block th:insert="${pageScripts} ?: ~{}"></th:block>
+      </div>
     </body>
-</th:block>
+  </th:block>
 </html>

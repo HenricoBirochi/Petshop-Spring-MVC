@@ -1,73 +1,168 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
-    <!-- Define head variables -->
-    <th:block th:insert="~{layout :: head('Sign Up', ~{::pageStyles})}"></th:block>
+  <!-- Define head variables -->
+  <th:block
+    th:insert="~{layout :: head('Sign Up', ~{::pageStyles})}"
+  ></th:block>
 
-    <!-- truque: trocamos o root por um replace no layout -->
-    <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
-        <main th:fragment="content" class="w-full max-w-lg">
-            <div class="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl overflow-hidden">
-                <div class="px-8 py-6 bg-amber-500">
-                    <h1 class="text-white text-2xl font-extrabold">Create your account</h1>
-                    <p class="text-amber-100 text-sm mt-1">Come and make part of our lover pets community</p>
-                </div>
+  <!-- truque: trocamos o root por um replace no layout -->
+  <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
+    <main th:fragment="content" class="w-full max-w-md">
+      <div class="space-y-6">
+        <!-- Header -->
+        <div class="text-center space-y-2">
+          <div
+            class="inline-block px-3 py-1 rounded-full text-xs font-medium"
+            style="background-color: #fbdc8e; color: #394f87"
+          >
+            🐾 Join Us
+          </div>
+          <h1 class="text-3xl font-bold" style="color: #394f87">
+            Create account
+          </h1>
+          <p class="text-xs" style="color: #394f87; opacity: 0.7">
+            Join our pet lovers community
+          </p>
+        </div>
 
-                <div class="px-8 py-8">
-                    <form method="POST" th:action="@{/user/sign-up}" th:object="${user}" class="space-y-6">
-                        <div>
-                            <label for="name" class="block text-sm font-semibold text-gray-700">Full name</label>
-                            <input id="name" th:field="*{name}" required type="text" placeholder="Your full name"
-                                   class="mt-2 block w-full rounded-lg border border-gray-200 px-4 py-3 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300 transition" />
-                            <p th:text="${exception.specificErrors['emptyName']} ?: ''"
-                               class="mt-1 text-xs text-red-500 font-medium">
-                            </p>
-                        </div>
+        <!-- Form -->
+        <form
+          method="POST"
+          th:action="@{/user/sign-up}"
+          th:object="${user}"
+          class="space-y-4"
+        >
+          <div>
+            <label
+              for="name"
+              class="block text-xs font-medium mb-1"
+              style="color: #394f87"
+              >Full name</label
+            >
+            <input
+              id="name"
+              th:field="*{name}"
+              required
+              type="text"
+              placeholder="Your full name"
+              class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition"
+              style="
+                border: 1px solid rgba(57, 79, 135, 0.2);
+                background-color: white;
+              "
+            />
+            <p
+              th:text="${exception.specificErrors['emptyName']} ?: ''"
+              class="mt-1 text-xs text-red-500 font-medium"
+            ></p>
+          </div>
 
-                        <div>
-                            <label for="userName" class="block text-sm font-semibold text-gray-700">User name</label>
-                            <input id="userName" th:field="*{userName}" required type="text" placeholder="Choose a user name"
-                                   class="mt-2 block w-full rounded-lg border border-gray-200 px-4 py-3 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300 transition" />
-                            <p th:text="${exception.specificErrors['emptyUserName']} ?: ''"
-                               class="mt-1 text-xs text-red-500 font-medium">
-                            </p>
-                        </div>
+          <div>
+            <label
+              for="userName"
+              class="block text-xs font-medium mb-1"
+              style="color: #394f87"
+              >Username</label
+            >
+            <input
+              id="userName"
+              th:field="*{userName}"
+              required
+              type="text"
+              placeholder="Choose a username"
+              class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition"
+              style="
+                border: 1px solid rgba(57, 79, 135, 0.2);
+                background-color: white;
+              "
+            />
+            <p
+              th:text="${exception.specificErrors['emptyUserName']} ?: ''"
+              class="mt-1 text-xs text-red-500 font-medium"
+            ></p>
+          </div>
 
-                        <div>
-                            <label for="email" class="block text-sm font-semibold text-gray-700">Email</label>
-                            <input id="email" th:field="*{email}" required type="email" placeholder="your.email@example.com"
-                                   class="mt-2 block w-full rounded-lg border border-gray-200 px-4 py-3 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300 transition" />
-                            <p th:text="${exception.specificErrors['emptyEmail']} ?: ''"
-                               class="mt-1 text-xs text-red-500 font-medium">
-                            </p>
-                        </div>
+          <div>
+            <label
+              for="email"
+              class="block text-xs font-medium mb-1"
+              style="color: #394f87"
+              >Email</label
+            >
+            <input
+              id="email"
+              th:field="*{email}"
+              required
+              type="email"
+              placeholder="your.email@example.com"
+              class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition"
+              style="
+                border: 1px solid rgba(57, 79, 135, 0.2);
+                background-color: white;
+              "
+            />
+            <p
+              th:text="${exception.specificErrors['emptyEmail']} ?: ''"
+              class="mt-1 text-xs text-red-500 font-medium"
+            ></p>
+          </div>
 
-                        <div>
-                            <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
-                            <input id="password" th:field="*{password}" required type="password" placeholder="••••••••"
-                                   class="mt-2 block w-full rounded-lg border border-gray-200 px-4 py-3 placeholder-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300 transition" />
-                            <p class="mt-2 text-xs text-gray-500">Minimium 8 caracters. Use at least one capital letter, one special caracter and one number.</p>
-                            <p th:text="${exception.specificErrors['emptyPassword']} ?: ''"
-                               class="mt-1 text-xs text-red-500 font-medium">
-                            </p>
-                            <p th:text="${exception.message}"
-                               class="mt-2 text-xs text-red-600 font-semibold">
-                            </p>
-                        </div>
+          <div>
+            <label
+              for="password"
+              class="block text-xs font-medium mb-1"
+              style="color: #394f87"
+              >Password</label
+            >
+            <input
+              id="password"
+              th:field="*{password}"
+              required
+              type="password"
+              placeholder="••••••••"
+              class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition"
+              style="
+                border: 1px solid rgba(57, 79, 135, 0.2);
+                background-color: white;
+              "
+            />
+            <p class="mt-1 text-xs" style="color: #394f87; opacity: 0.5">
+              Min 8 chars, 1 uppercase, 1 special, 1 number
+            </p>
+            <p
+              th:text="${exception.specificErrors['emptyPassword']} ?: ''"
+              class="mt-1 text-xs text-red-500 font-medium"
+            ></p>
+            <p
+              th:text="${exception.message}"
+              class="mt-1 text-xs text-red-600 font-semibold"
+            ></p>
+          </div>
 
-                        <div>
-                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 hover:bg-orange-400 text-white font-semibold px-4 py-3 shadow-md transition-transform active:scale-95"> 
-                                Create your account
-                            </button>
-                        </div>
+          <button
+            type="submit"
+            class="w-full rounded-lg text-white text-sm font-semibold px-4 py-2.5 transition-all hover:opacity-90"
+            style="background-color: #fabb4d"
+          >
+            Create account
+          </button>
 
-                        <div class="text-center text-sm text-gray-600">
-                            <span>Do you already has an account?</span>
-                            <a href="/user/sign-in" class="text-amber-500 font-medium hover:underline ml-1">sign-in</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <p class="mt-6 text-center text-xs text-gray-400">When creating an account you agree with our using terms and privace politics</p>
-        </main>
-    </th:block>
+          <p class="text-center text-xs" style="color: #394f87; opacity: 0.7">
+            Already have an account?
+            <a
+              href="/user/sign-in"
+              class="font-medium hover:underline"
+              style="color: #fabb4d"
+              >Sign in</a
+            >
+          </p>
+        </form>
+
+        <p class="text-center text-xs" style="color: #394f87; opacity: 0.5">
+          By creating an account you agree with our terms of use and privacy
+          policy
+        </p>
+      </div>
+    </main>
+  </th:block>
 </html>
