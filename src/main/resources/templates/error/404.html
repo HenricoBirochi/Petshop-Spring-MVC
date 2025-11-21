@@ -1,51 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
   <!-- Define head variables -->
-  <th:block th:insert="~{layout :: head('Error', ~{::pageStyles})}"></th:block>
+  <th:block
+    th:insert="~{layout :: head('Page Not Found', ~{::pageStyles})}"
+  ></th:block>
 
   <!-- truque: trocamos o root por um replace no layout -->
   <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
     <main th:fragment="content" class="w-full max-w-2xl">
       <section class="py-12 px-6">
         <div class="text-center space-y-6">
-          <!-- Error Icon -->
+          <!-- 404 Icon -->
           <div
             class="inline-flex items-center justify-center w-24 h-24 rounded-full"
-            style="background-color: rgba(251, 149, 142, 0.2)"
+            style="background-color: rgba(115, 229, 226, 0.2)"
           >
-            <span class="text-5xl">⚠️</span>
+            <span class="text-5xl">🔍</span>
           </div>
 
           <!-- Error Details -->
           <div class="space-y-3">
             <div
               class="inline-block px-3 py-1 rounded-full text-xs font-medium"
-              style="background-color: #fb958e; color: white"
+              style="background-color: #73e5e2; color: #394f87"
             >
-              Error <span th:text="${status} ?: '500'"></span>
+              Error 404
             </div>
 
             <h1 class="text-4xl font-bold" style="color: #394f87">
-              Oops! Something went wrong
+              Page not found
             </h1>
 
             <p
               class="text-sm leading-relaxed max-w-md mx-auto"
               style="color: #394f87; opacity: 0.8"
-              th:text="${error} ?: 'An unexpected error occurred. Please try again later.'"
-            ></p>
-
-            <div
-              th:if="${message}"
-              class="p-4 rounded-lg max-w-md mx-auto"
-              style="background-color: rgba(251, 220, 142, 0.2)"
             >
-              <p
-                class="text-xs"
-                style="color: #394f87; opacity: 0.8"
-                th:text="${message}"
-              ></p>
-            </div>
+              The page you're looking for doesn't exist or has been moved.
+            </p>
           </div>
 
           <!-- Actions -->
@@ -57,18 +48,18 @@
             >
               Go Home
             </a>
-            <button
-              onclick="history.back()"
+            <a
+              th:href="@{/product}"
               class="px-5 py-2.5 rounded-lg text-sm font-medium transition-all hover:opacity-90"
               style="background-color: #73e5e2; color: #394f87"
             >
-              Go Back
-            </button>
+              Browse Products
+            </a>
           </div>
 
           <!-- Help Text -->
           <p class="text-xs pt-8" style="color: #394f87; opacity: 0.5">
-            If this problem persists, please contact support
+            Try searching for what you need or go back to the homepage
           </p>
         </div>
       </section>

@@ -1,21 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
     <!-- Define head variables -->
-    <th:block th:insert="~{layout :: head('Product Details', ~{::pageStyles})}"></th:block>
+    <th:block th:insert="~{layout :: head('Shopping Cart', ~{::pageStyles})}"></th:block>
 
     <!-- truque: trocamos o root por um replace no layout -->
     <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
-        <main th:fragment="content">
-            <div th:each="cartItem : ${cart.cartItems}">
-                <div th:text="${cartItem.product.name}"></div>
-                <div th:text="${cartItem.product.stockQuantity}"></div>
-                <div th:text="${cartItem.setAndGetTotalPriceItem}"></div>
-                <div>
-                    <img th:src="@{|/uploads/${cartItem.product.productImages[0].productImageId}${cartItem.product.productImages[0].fileExtension}|}"
-                         alt="Imagem do Produto"
-                         class="bg-size-[auto_100px]">
+        <main th:fragment="content" class="w-full">
+            <section class="w-full py-12 px-6">
+                <div class="max-w-5xl mx-auto space-y-8">
+                    <!-- Header -->
+                    <div class="text-center space-y-3">
+                        <div class="inline-block px-3 py-1 rounded-full text-xs font-medium" 
+                             style="background-color: #fbdc8e; color: #394F87;">
+                            🛒 Shopping
+                        </div>
+                        <h1 class="text-4xl font-bold" style="color: #394F87;">Your Cart</h1>
+                        <p class="text-sm" style="color: #394F87; opacity: 0.7;">Review your items before checkout</p>
+                    </div>
+
+                    <!-- Empty Cart Message -->
+                    <div th:if="${cart == null || cart.cartItems == null || cart.cartItems.isEmpty()}" 
+                         class="text-center py-16 space-y-6">
+                        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full" 
+                             style="background-color: rgba(251, 220, 142, 0.2);">
+                            <span class="text-5xl">🛒</span>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <h2 class="text-2xl font-bold" style="color: #394F87;">Your cart is empty</h2>
+                            <p class="text-sm max-w-md mx-auto" style="color: #394F87; opacity: 0.7;">
+                                Start adding products to your cart to see them here
+                            </p>
+                        </div>
+
+                        <a th:href="@{/product}" 
+                           class="inline-block px-6 py-3 rounded-lg text-sm font-medium text-white transition-all hover:opacity-90"
+                           style="background-color: #fabb4d;">
+                            Browse Products
+                        </a>
+                    </div>
+
+                    <!-- Cart Items -->
+                    <div th:if="${cart != null && cart.cartItems != null && !cart.cartItems.isEmpty()}" 
+                         class="grid lg:grid-cols-3 gap-8">
+                        <!-- Items List -->
+                        <div class="lg:col-span-2 space-y-4">
+                            <div th:each="cartItem : ${cart.cartItems}" 
+                                 class="rounded-xl p-4 flex gap-4 transition-all hover:scale-[1.01]" 
+                                 style="background-color: white; border: 1px solid rgba(57, 79, 135, 0.1);">
+                                <!-- Product Image -->
+                                <div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0" 
+                                     style="background-color: #f8f9fa;">
+                                    <img th:src="@{|/uploads/${cartItem.product.productImages[0].productImageId}${cartItem.product.productImages[0].fileExtension}|}"
+                                         alt="Product Image"
+                                         class="w-full h-full object-cover">
+                                </div>
+
+                                <!-- Product Info -->
+                                <div class="flex-1 space-y-2">
+                                    <h3 class="font-semibold text-sm" style="color: #394F87;" th:text="${cartItem.product.name}"></h3>
+                                    
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs" style="color: #394F87; opacity: 0.6;">Quantity:</span>
+                                        <span class="text-xs font-medium" style="color: #394F87;" th:text="${cartItem.quantity}"></span>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <div class="space-y-1">
+                                            <div class="text-xs" style="color: #394F87; opacity: 0.6;">
+                                                Unit: <span class="font-medium" th:text="'$'+${cartItem.product.price}"></span>
+                                            </div>
+                                            <div class="text-lg font-bold" style="color: #fabb4d;" th:text="'$'+${cartItem.setAndGetTotalPriceItem}"></div>
+                                        </div>
+
+                                        <button class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-90"
+                                                style="background-color: #FB958E; color: white;">
+                                            Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cart Summary -->
+                        <div class="lg:col-span-1">
+                            <div class="rounded-xl p-6 space-y-6 sticky top-4" 
+                                 style="background-color: rgba(251, 220, 142, 0.1); border: 1px solid rgba(57, 79, 135, 0.1);">
+                                <h3 class="text-lg font-bold" style="color: #394F87;">Order Summary</h3>
+
+                                <div class="space-y-3">
+                                    <div class="flex justify-between text-sm">
+                                        <span style="color: #394F87; opacity: 0.7;">Subtotal</span>
+                                        <span class="font-medium" style="color: #394F87;" th:text="'$'+${cart.totalPrice}"></span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span style="color: #394F87; opacity: 0.7;">Shipping</span>
+                                        <span class="font-medium" style="color: #73E5E2;">Free</span>
+                                    </div>
+                                    <div class="flex justify-between text-sm">
+                                        <span style="color: #394F87; opacity: 0.7;">Tax</span>
+                                        <span class="font-medium" style="color: #394F87;">$0.00</span>
+                                    </div>
+
+                                    <div class="border-t pt-3" style="border-color: rgba(57, 79, 135, 0.1);">
+                                        <div class="flex justify-between">
+                                            <span class="font-bold" style="color: #394F87;">Total</span>
+                                            <span class="text-xl font-bold" style="color: #fabb4d;" th:text="'$'+${cart.totalPrice}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <button class="w-full py-3 rounded-lg text-sm font-semibold text-white transition-all hover:opacity-90"
+                                            style="background-color: #fabb4d;">
+                                        Proceed to Checkout
+                                    </button>
+                                    <a th:href="@{/product}" 
+                                       class="block text-center py-2 text-sm transition-opacity hover:opacity-70"
+                                       style="color: #394F87; opacity: 0.7;">
+                                        ← Continue Shopping
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
         </main>
     </th:block>
 </html>

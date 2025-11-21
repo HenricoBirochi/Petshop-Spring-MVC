@@ -16,8 +16,31 @@
                         <p class="text-sm" style="color: #394F87; opacity: 0.7;">Discover everything your pet needs</p>
                     </div>
 
+                    <!-- Empty Products Message -->
+                    <div th:if="${products == null || products.isEmpty()}" 
+                         class="text-center py-16 space-y-6">
+                        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full" 
+                             style="background-color: rgba(115, 229, 226, 0.2);">
+                            <span class="text-5xl">📦</span>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <h2 class="text-2xl font-bold" style="color: #394F87;">No products yet</h2>
+                            <p class="text-sm max-w-md mx-auto" style="color: #394F87; opacity: 0.7;">
+                                There are no products available at the moment. Check back soon!
+                            </p>
+                        </div>
+
+                        <a th:href="@{/product/add}" 
+                           class="inline-block px-6 py-3 rounded-lg text-sm font-medium text-white transition-all hover:opacity-90"
+                           style="background-color: #fabb4d;">
+                            Add New Product
+                        </a>
+                    </div>
+
                     <!-- Products Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div th:if="${products != null && !products.isEmpty()}" 
+                         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div th:each="product : ${products}" 
                              class="rounded-xl overflow-hidden transition-transform hover:scale-105" 
                              style="background-color: white; border: 1px solid rgba(57, 79, 135, 0.1);">
