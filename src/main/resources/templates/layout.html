@@ -2,15 +2,9 @@
 <html lang="pt" xmlns:th="http://www.thymeleaf.org">
   <head th:fragment="head(title, pageStyles)">
     <meta charset="UTF-8" />
-    <title th:text="${title}"></title>
-    <link
-      rel="icon"
-      type="image/x-icon"
-      th:href="@{/img/VoyagerMiniLogo.svg}"
-    />
+    <title th:text="|${title} • Petshop|"></title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/petshop-logo.svg}" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <!--Customization with Tailwind-->
-    <!-- espaço opcional para CSS específico da página -->
     <th:block th:insert="${pageStyles} ?: ~{}"></th:block>
   </head>
   <!-- Fragmento com “slot” -->
