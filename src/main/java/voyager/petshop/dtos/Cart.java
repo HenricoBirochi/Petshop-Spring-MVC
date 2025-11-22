@@ -20,7 +20,7 @@ public class Cart {
         this.cartItems = cartItems;
     }
 
-    public BigDecimal setAndGetTotalPriceCart() {
+    public void setTotalPriceCart() {
         totalPriceCart = BigDecimal.ZERO;
         for (CartItem cartItem : cartItems) {
             BigDecimal item = cartItem.getTotalPriceItem();
@@ -28,7 +28,6 @@ public class Cart {
                 continue;
             totalPriceCart = totalPriceCart.add(item);
         }
-        return totalPriceCart;
     }
 
 }

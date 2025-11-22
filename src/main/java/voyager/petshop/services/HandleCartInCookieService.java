@@ -24,6 +24,7 @@ public class HandleCartInCookieService {
         Cart cart = getOrInitCartInCookie(jsonCookieCart, response);
 
         List<CartItem> cartItems = cart.getCartItems();
+        cartItem.setTotalPriceItem();
         cartItems.add(cartItem);
 
         String newCartCookie = objectMapper.writeValueAsString(cart);

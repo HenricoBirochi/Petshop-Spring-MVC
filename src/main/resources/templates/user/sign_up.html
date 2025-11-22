@@ -105,6 +105,10 @@
               th:text="${exception.specificErrors['emptyEmail']} ?: ''"
               class="mt-1 text-xs text-red-500 font-medium"
             ></p>
+            <p
+              th:text="${exception.specificErrors['wrongPatternEmail']} ?: ''"
+              class="mt-1 text-xs text-red-500 font-medium"
+            ></p>
           </div>
 
           <div>
@@ -131,6 +135,10 @@
             </p>
             <p
               th:text="${exception.specificErrors['emptyPassword']} ?: ''"
+              class="mt-1 text-xs text-red-500 font-medium"
+            ></p>
+            <p
+              th:text="${exception.specificErrors['wrongPatternPassword']} ?: ''"
               class="mt-1 text-xs text-red-500 font-medium"
             ></p>
             <p

@@ -43,6 +43,7 @@ public class CartController {
             return mv;
         }
 
+        cart.setTotalPriceCart();
         mv.addObject("cart", cart);
         return mv;
     }

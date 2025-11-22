@@ -23,9 +23,8 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public BigDecimal setAndGetTotalPriceItem() {
+    public void setTotalPriceItem() {
         totalPriceItem = product.getPrice().multiply(BigDecimal.valueOf(quantity));
-         return totalPriceItem;
     }
 
 }

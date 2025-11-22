@@ -70,7 +70,7 @@
                                             <div class="text-xs" style="color: #394F87; opacity: 0.6;">
                                                 Unit: <span class="font-medium" th:text="'$'+${cartItem.product.price}"></span>
                                             </div>
-                                            <div class="text-lg font-bold" style="color: #fabb4d;" th:text="'$'+${cartItem.setAndGetTotalPriceItem}"></div>
+                                            <div class="text-lg font-bold" style="color: #fabb4d;" th:text="'$'+${cartItem.totalPriceItem}"></div>
                                         </div>
 
                                         <button class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-90"
@@ -91,7 +91,7 @@
                                 <div class="space-y-3">
                                     <div class="flex justify-between text-sm">
                                         <span style="color: #394F87; opacity: 0.7;">Subtotal</span>
-                                        <span class="font-medium" style="color: #394F87;" th:text="'$'+${cart.totalPrice}"></span>
+                                        <span class="font-medium" style="color: #394F87;" th:text="'$'+${cart.totalPriceCart}"></span>
                                     </div>
                                     <div class="flex justify-between text-sm">
                                         <span style="color: #394F87; opacity: 0.7;">Shipping</span>
@@ -105,7 +105,7 @@
                                     <div class="border-t pt-3" style="border-color: rgba(57, 79, 135, 0.1);">
                                         <div class="flex justify-between">
                                             <span class="font-bold" style="color: #394F87;">Total</span>
-                                            <span class="text-xl font-bold" style="color: #fabb4d;" th:text="'$'+${cart.totalPrice}"></span>
+                                            <span class="text-xl font-bold" style="color: #fabb4d;" th:text="'$'+${cart.totalPriceCart}"></span>
                                         </div>
                                     </div>
                                 </div>

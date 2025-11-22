@@ -45,12 +45,18 @@ public class UserValidationService implements IModelsValidationService {
         if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
             specificErrors.put("emptyEmail", "Field 'email' is empty");
         }
+        if (!user.getEmail().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}")) {
+            specificErrors.put("wrongPatternEmail", "Field 'email' is in a wrong pattern");
+        }
         if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
             specificErrors.put("emptyPassword", "Field 'password' is empty");
         }
+        if (!user.getPassword().matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$")) {
+            specificErrors.put("wrongPatternPassword", "Field 'password' must be at least 8 characters long and contain at least 1 uppercase character, 1 special character, and 1 number.");
+        }
 
         if (!specificErrors.isEmpty()) {
-            throw new ModelException("There is empty fields", specificErrors);
+            throw new ModelException("There is something wrong in the form", specificErrors);
         }
     }
 
