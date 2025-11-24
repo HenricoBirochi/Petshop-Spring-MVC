@@ -24,6 +24,9 @@ import voyager.petshop.repositories.ProductImageRepository;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 
 
@@ -119,17 +122,26 @@ public class ProductController {
         try {
             var product = productRepository.findByProductId(id);
             if (product != null) {
-                // delete image files from disk and remove image records
-                if (product.getProductImages() != null) {
-                    for (ProductImage img : product.getProductImages()) {
-                        Path p = Paths.get(uploadDir + "/" + img.getProductImageId().toString() + img.getFileExtension());
-                        try {
-                            Files.deleteIfExists(p);
-                        } catch (Exception ignored) {}
-                    }
-                    productImageRepository.deleteAll(product.getProductImages());
+                // take a copy of images (avoid potential lazy/managed collection issues)
+                var images = product.getProductImages() != null ? new ArrayList<>(product.getProductImages()) : Collections.<ProductImage>emptyList();
+
+                // delete files from disk first
+                for (ProductImage img : images) {
+                    Path p = Paths.get(uploadDir + "/" + img.getProductImageId().toString() + img.getFileExtension());
+                    try {
+                        Files.deleteIfExists(p);
+                    } catch (Exception ignored) {}
                 }
-                productRepository.delete(product);
+
+                // delete image records from DB
+                if (!images.isEmpty()) {
+                    var ids = images.stream().map(ProductImage::getProductImageId).collect(Collectors.toList());
+                    productImageRepository.deleteAllById(ids);
+                    try { productImageRepository.flush(); } catch (Exception ignored) {}
+                }
+
+                // finally delete the product
+                try { productRepository.deleteById(id); } catch (Exception e) { productRepository.delete(product); }
             }
         } catch (Exception ignored) {}
         return mv;
