@@ -10,20 +10,29 @@
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Product Images -->
                     <div class="space-y-4">
-                        <div class="rounded-xl overflow-hidden" style="background-color: #f8f9fa;">
-                            <img th:src="@{|/uploads/${product.productImages[0].productImageId}${product.productImages[0].fileExtension}|}" 
-                                 alt="Product Image" 
-                                 class="w-full aspect-square object-cover">
-                        </div>
-                        <div class="grid grid-cols-4 gap-2">
-                            <div th:each="image : ${product.productImages}" 
-                                 class="rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105" 
-                                 style="background-color: #f8f9fa;">
-                                <img th:src="@{|/uploads/${image.productImageId}${image.fileExtension}|}" 
-                                     alt="Product Thumbnail" 
+                        <th:block th:if="${product.productImages != null and !product.productImages.isEmpty()}">
+                            <div class="rounded-xl overflow-hidden" style="background-color: #f8f9fa;">
+                                <img th:src="@{|/uploads/${product.productImages[0].productImageId}${product.productImages[0].fileExtension}|}" 
+                                     alt="Product Image" 
                                      class="w-full aspect-square object-cover">
                             </div>
-                        </div>
+                            <div class="grid grid-cols-4 gap-2">
+                                <div th:each="image : ${product.productImages}" 
+                                     class="rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105" 
+                                     style="background-color: #f8f9fa;">
+                                    <img th:src="@{|/uploads/${image.productImageId}${image.fileExtension}|}" 
+                                         alt="Product Thumbnail" 
+                                         class="w-full aspect-square object-cover">
+                                </div>
+                            </div>
+                        </th:block>
+                        <th:block th:unless="${product.productImages != null and !product.productImages.isEmpty()}">
+                            <div class="rounded-xl overflow-hidden" style="background-color: #f8f9fa;">
+                                <img th:src="@{/img/petshop-logo.svg}"
+                                     alt="No image available"
+                                     class="w-full aspect-square object-cover" />
+                            </div>
+                        </th:block>
                     </div>
 
                     <!-- Product Info -->
@@ -68,7 +77,17 @@
                             </button>
                         </form>
 
-                        <a th:href="@{/product}" 
+                        <th:block th:if="${session.user != null and session.user.userRole.name() == 'ADMIN'}">
+                            <form th:action="@{/product/delete/{id}(id=${product.productId})}" method="post" onsubmit="return confirm('Delete this product?');">
+                                <button type="submit" 
+                                        class="w-full rounded-lg text-white font-semibold px-6 py-3 transition-all hover:opacity-90 active:scale-95"
+                                        style="background-color: #ef4444;">
+                                    Delete Product
+                                </button>
+                            </form>
+                        </th:block>
+
+                        <a th:href="@{/product/all-products}" 
                            class="block text-center text-sm transition-opacity hover:opacity-70" 
                            style="color: #394F87; opacity: 0.7;">
                             ← Back to Products

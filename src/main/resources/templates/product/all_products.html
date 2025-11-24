@@ -45,11 +45,18 @@
                              class="rounded-xl overflow-hidden transition-transform hover:scale-105" 
                              style="background-color: white; border: 1px solid rgba(57, 79, 135, 0.1);">
                             <!-- Product Image -->
-                            <div class="aspect-square overflow-hidden" style="background-color: #f8f9fa;">
-                                <img th:src="@{|/uploads/${product.productImages[0].productImageId}${product.productImages[0].fileExtension}|}" 
-                                     alt="Product Image" 
-                                     class="w-full h-full object-cover">
-                            </div>
+                            <th:block th:if="${product.productImages != null and !product.productImages.isEmpty()}">
+                                <div class="aspect-square overflow-hidden" style="background-color: #f8f9fa;">
+                                    <img th:src="@{|/uploads/${product.productImages[0].productImageId}${product.productImages[0].fileExtension}|}" 
+                                         alt="Product Image" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </th:block>
+                            <th:block th:unless="${product.productImages != null and !product.productImages.isEmpty()}">
+                                <div class="aspect-square overflow-hidden" style="background-color: #f8f9fa;">
+                                    <img th:src="@{/img/petshop-logo.svg}" alt="No image" class="w-full h-full object-cover" />
+                                </div>
+                            </th:block>
                             
                             <!-- Product Info -->
                             <div class="p-4 space-y-3">

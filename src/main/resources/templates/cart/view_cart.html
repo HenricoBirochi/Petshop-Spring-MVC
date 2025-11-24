@@ -48,13 +48,23 @@
                             <div th:each="cartItem : ${cart.cartItems}" 
                                  class="rounded-xl p-4 flex gap-4 transition-all hover:scale-[1.01]" 
                                  style="background-color: white; border: 1px solid rgba(57, 79, 135, 0.1);">
-                                <!-- Product Image -->
-                                <div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0" 
-                                     style="background-color: #f8f9fa;">
-                                    <img th:src="@{|/uploads/${cartItem.product.productImages[0].productImageId}${cartItem.product.productImages[0].fileExtension}|}"
-                                         alt="Product Image"
-                                         class="w-full h-full object-cover">
-                                </div>
+                                  <!-- Product Image -->
+                                  <th:block th:if="${cartItem.product.productImages != null and !cartItem.product.productImages.isEmpty()}">
+                                     <div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0" 
+                                         style="background-color: #f8f9fa;">
+                                        <img th:src="@{|/uploads/${cartItem.product.productImages[0].productImageId}${cartItem.product.productImages[0].fileExtension}|}"
+                                            alt="Product Image"
+                                            class="w-full h-full object-cover">
+                                     </div>
+                                  </th:block>
+                                  <th:block th:unless="${cartItem.product.productImages != null and !cartItem.product.productImages.isEmpty()}">
+                                     <div class="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0" 
+                                         style="background-color: #f8f9fa;">
+                                        <img th:src="@{/img/petshop-logo.svg}"
+                                            alt="No image"
+                                            class="w-full h-full object-cover">
+                                     </div>
+                                  </th:block>
 
                                 <!-- Product Info -->
                                 <div class="flex-1 space-y-2">

@@ -18,6 +18,12 @@ import voyager.petshop.models.Product;
 import voyager.petshop.repositories.ProductRepository;
 import voyager.petshop.services.ProductImageSaveService;
 import voyager.petshop.services.models.IModelsValidationService;
+import voyager.petshop.models.ProductImage;
+import voyager.petshop.repositories.ProductImageRepository;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 
@@ -30,6 +36,9 @@ public class ProductController {
 
     @Autowired
     private ProductImageSaveService productImageSaveService;
+
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
     @Autowired
     @Qualifier("productValidator")
@@ -101,6 +110,29 @@ public class ProductController {
             mv.addObject("product", product);
             return mv;
         }
+    }
+
+    @VerifyIfIsAdmin
+    @PostMapping("/delete/{id}")
+    public ModelAndView deleteProduct(@PathVariable UUID id) {
+        ModelAndView mv = new ModelAndView("redirect:/product/all-products");
+        try {
+            var product = productRepository.findByProductId(id);
+            if (product != null) {
+                // delete image files from disk and remove image records
+                if (product.getProductImages() != null) {
+                    for (ProductImage img : product.getProductImages()) {
+                        Path p = Paths.get(uploadDir + "/" + img.getProductImageId().toString() + img.getFileExtension());
+                        try {
+                            Files.deleteIfExists(p);
+                        } catch (Exception ignored) {}
+                    }
+                    productImageRepository.deleteAll(product.getProductImages());
+                }
+                productRepository.delete(product);
+            }
+        } catch (Exception ignored) {}
+        return mv;
     }
 
 }
