@@ -14,6 +14,7 @@ public class ExceptionHandlerController {
         ModelAndView mv = new ModelAndView("error/error");
         String error = ex.getMessage();
         mv.addObject("error", error);
+        mv.addObject("status", 401);
         return mv;
     }
 
@@ -22,6 +23,7 @@ public class ExceptionHandlerController {
         ModelAndView mv = new ModelAndView("error/error");
         String error = ex.getMessage();
         mv.addObject("error", error);
+        mv.addObject("status", 401);
         return mv;
     }
 

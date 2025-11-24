@@ -73,10 +73,14 @@
                                             <div class="text-lg font-bold" style="color: #fabb4d;" th:text="'$'+${cartItem.totalPriceItem}"></div>
                                         </div>
 
-                                        <button class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-90"
-                                                style="background-color: #FB958E; color: white;">
-                                            Remove
-                                        </button>
+                                        <form th:action="@{/cart/remove-item}" method="post">
+                                          <input type="hidden" name="cartItemId" th:value="${cartItem.cartItemId}">
+                                          <button class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-90"
+                                                  style="background-color: #FB958E; color: white;"
+                                                  type="submit">
+                                              Remove
+                                          </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -111,11 +115,14 @@
                                 </div>
 
                                 <div class="space-y-3">
-                                    <button class="w-full py-3 rounded-lg text-sm font-semibold text-white transition-all hover:opacity-90"
-                                            style="background-color: #fabb4d;">
-                                        Proceed to Checkout
-                                    </button>
-                                    <a th:href="@{/product}" 
+                                    <form th:action="@{/cart/checkout}" method="get">
+                                      <button class="w-full py-3 rounded-lg text-sm font-semibold text-white transition-all hover:opacity-90"
+                                              style="background-color: #fabb4d;"
+                                              type="submit">
+                                          Proceed to Checkout
+                                      </button>
+                                    </form>
+                                    <a th:href="@{/product/all-products}"
                                        class="block text-center py-2 text-sm transition-opacity hover:opacity-70"
                                        style="color: #394F87; opacity: 0.7;">
                                         ← Continue Shopping

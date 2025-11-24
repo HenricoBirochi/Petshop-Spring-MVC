@@ -27,7 +27,7 @@ public class VerifyIfLoggedAspect {
             return jp.proceed();
         }
 
-        throw new NotLoggedInException("You can't access this page, first you need to sign in");
+        throw new NotLoggedInException("You can't do this, first you need to sign in");
 
     }
 

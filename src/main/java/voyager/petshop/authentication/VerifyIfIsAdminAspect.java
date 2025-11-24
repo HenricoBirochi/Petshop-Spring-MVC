@@ -34,7 +34,7 @@ public class VerifyIfIsAdminAspect {
             return jp.proceed();
         }
 
-        throw new NotAdminException("You can't access this page, you aren't a Admin");
+        throw new NotAdminException("You can't do this, you aren't a Admin");
 
     }
 

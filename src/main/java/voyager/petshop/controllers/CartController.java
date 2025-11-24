@@ -5,14 +5,11 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletResponse;
+import voyager.petshop.authentication.VerifyIfLogged;
 import voyager.petshop.dtos.Cart;
 import voyager.petshop.dtos.CartItem;
 import voyager.petshop.models.Product;
@@ -39,7 +36,9 @@ public class CartController {
         try {
             cart = handleCartInCookie.getOrInitCartInCookie(jsonCookieCart, response);
         }
-        catch(IOException exception) {
+        catch(Exception exception) {
+            mv = new ModelAndView("error/error");
+            mv.addObject("error", exception.getMessage());
             return mv;
         }
 
@@ -56,15 +55,57 @@ public class CartController {
         var mv = new ModelAndView("redirect:/cart/view");
 
         Product product = productRepository.findByProductId(productId);
-        CartItem cartItem = new CartItem(product, quantity);
+        UUID cartItemId = UUID.randomUUID();
+        CartItem cartItem = new CartItem(cartItemId, product, quantity);
 
         try {
-            handleCartInCookie.addItemInCartCookie(cartItem, jsonCookieCart, response);
+            handleCartInCookie.addItemInCartCookie(jsonCookieCart, cartItem, response);
         }
-        catch(IOException exception) {
+        catch(Exception exception) {
+            mv = new ModelAndView("error/error");
+            mv.addObject("error", exception.getMessage());
             return mv;
         }
 
+        return mv;
+    }
+
+    @PostMapping("/remove-item")
+    public ModelAndView removeItemFromCart(@RequestParam("cartItemId") UUID cartItemId,
+                                           @CookieValue(value = "jsonCookieCart", required = false) String jsonCookieCart,
+                                           HttpServletResponse response) {
+        var mv = new ModelAndView("redirect:/");
+
+        try {
+            handleCartInCookie.removeItemFromCartCookie(jsonCookieCart, cartItemId, response);
+        }
+        catch (Exception exception) {
+            mv = new ModelAndView("error/error");
+            mv.addObject("error", exception.getMessage());
+            return mv;
+        }
+
+        return mv;
+    }
+
+    @VerifyIfLogged
+    @GetMapping("/checkout")
+    public ModelAndView checkoutCart(HttpServletResponse response) {
+        var mv = new ModelAndView("cart/order_success");
+        UUID orderId;
+
+        try {
+            orderId = UUID.randomUUID();
+            /* Hear is where we would put the sending email logic to the user */
+            handleCartInCookie.clearCartCookie(response);
+        }
+        catch (Exception exception) {
+            mv = new ModelAndView("error/error");
+            mv.addObject("error", exception.getMessage());
+            return mv;
+        }
+
+        mv.addObject("orderId", orderId);
         return mv;
     }
 

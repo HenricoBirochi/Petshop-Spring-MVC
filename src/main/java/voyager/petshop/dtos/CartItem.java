@@ -1,6 +1,7 @@
 package voyager.petshop.dtos;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,8 @@ import voyager.petshop.models.Product;
 @Setter
 public class CartItem {
 
+    private UUID cartItemId;
+
     private Product product;
 
     private Integer quantity;
@@ -18,7 +21,8 @@ public class CartItem {
 
     public CartItem() {}
 
-    public CartItem(Product product, Integer quantity) {
+    public CartItem(UUID cartItemId, Product product, Integer quantity) {
+        this.cartItemId = cartItemId;
         this.product = product;
         this.quantity = quantity;
     }
