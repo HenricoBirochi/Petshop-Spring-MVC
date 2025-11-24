@@ -135,12 +135,6 @@ This project uses **custom AOP annotations** for access control:
 
 ---
 
-## 📸 Screenshots
-
-> 💡 *Add screenshots of your application here!*
-
----
-
 ## 🗂️ API Endpoints
 
 ### 🏠 Main
