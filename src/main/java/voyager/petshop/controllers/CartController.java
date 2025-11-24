@@ -86,7 +86,7 @@ public class CartController {
     public ModelAndView removeItemFromCart(@RequestParam("cartItemId") UUID cartItemId,
                                            @CookieValue(value = "jsonCookieCart", required = false) String jsonCookieCart,
                                            HttpServletResponse response) {
-        var mv = new ModelAndView("redirect:/");
+        var mv = new ModelAndView("redirect:/cart/view");
 
         try {
             handleCartInCookie.removeItemFromCartCookie(jsonCookieCart, cartItemId, response);

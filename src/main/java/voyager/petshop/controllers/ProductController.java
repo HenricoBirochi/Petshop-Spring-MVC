@@ -19,6 +19,7 @@ import voyager.petshop.repositories.ProductRepository;
 import voyager.petshop.services.ProductImageSaveService;
 import voyager.petshop.services.models.IModelsValidationService;
 import voyager.petshop.models.ProductImage;
+import voyager.petshop.repositories.OrderItemRepository;
 import voyager.petshop.repositories.ProductImageRepository;
 
 import java.nio.file.Files;
@@ -42,6 +43,9 @@ public class ProductController {
 
     @Autowired
     private ProductImageRepository productImageRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Autowired
     @Qualifier("productValidator")
@@ -122,6 +126,14 @@ public class ProductController {
         try {
             var product = productRepository.findByProductId(id);
             if (product != null) {
+                // Check if product has orders
+                if (orderItemRepository.existsByProduct(product)) {
+                    long orderCount = orderItemRepository.countByProduct(product);
+                    mv = new ModelAndView("error/error");
+                    mv.addObject("error", "Cannot delete this product. It has been ordered " + orderCount + " time(s). Products with existing orders cannot be deleted.");
+                    return mv;
+                }
+
                 // take a copy of images (avoid potential lazy/managed collection issues)
                 var images = product.getProductImages() != null ? new ArrayList<>(product.getProductImages()) : Collections.<ProductImage>emptyList();
 
