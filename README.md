@@ -228,7 +228,6 @@ This project is licensed under the MIT License.
 | **Henrico Birochi** | 081230027 | [@HenricoBirochi](https://github.com/HenricoBirochi) |
 | **Vítor Agostino Braghittoni** | 081230024 | [@VBraghittoni](https://github.com/VBraghittoni) |
 | **Edgar Camacho Seabra Ribeiro** | 081230039 | [@Edgarcsr](https://github.com/Edgarcsr) |
-| **Vinicius Yamaguti** | 081220040 | - |
 
 ---
 
@@ -250,4 +249,4 @@ Give a ⭐ if this project helped you!
 
 ---
 
-<p align="center">Made with ❤️ and ☕ by Nicholas, Henrico, Vítor, Edgar & Vinicius</p>
+<p align="center">Made with ❤️ and ☕ by Nicholas, Henrico, Vítor & Edgar</p>
