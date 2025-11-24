@@ -7,12 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -85,14 +80,14 @@ public class ProductController {
     @VerifyIfIsAdmin
     @PostMapping("/add")
     public ModelAndView addProduct(@ModelAttribute("product") Product product,
-                                   @RequestParam("Images") List<MultipartFile> Images,
+                                   @RequestParam("images") List<MultipartFile> images,
                                    HttpServletRequest request) throws Exception {
         ModelAndView mv;
         try {
             if(product != null) {
                 iModelsValidationService.modelValidatingEmptyFields(product);
                 productRepository.save(product);
-                productImageSaveService.saveImageInDB(Images, product, uploadDir);
+                productImageSaveService.saveImageInDB(images, product, uploadDir);
                 mv = new ModelAndView("redirect:/");
                 return mv;
             }
