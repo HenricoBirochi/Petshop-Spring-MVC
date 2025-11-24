@@ -110,4 +110,16 @@ public class UserController {
         return mv;
     }
 
+    @GetMapping("/sign-out")
+    public ModelAndView signOut(HttpServletRequest request) {
+        var session = request.getSession(false);
+        if (session != null) {
+            try {
+                session.invalidate();
+            } catch (IllegalStateException ignored) {
+            }
+        }
+        return new ModelAndView("redirect:/");
+    }
+
 }
