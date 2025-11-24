@@ -126,20 +126,37 @@ public class CartController {
                 return mv;
             }
 
+            // Validate stock availability
+            for (CartItem cartItem : cart.getCartItems()) {
+                Product product = productRepository.findByProductId(cartItem.getProduct().getProductId());
+                if (product.getStockQuantity() < cartItem.getQuantity()) {
+                    mv = new ModelAndView("redirect:/cart/view");
+                    // Ideally, we would add an error message here
+                    return mv;
+                }
+            }
+
             // Create order
             Order order = new Order();
             order.setUser(user);
             order.setTotalAmount(cart.getTotalPriceCart());
             order.setStatus(OrderStatus.PENDING);
 
-            // Create order items
+            // Create order items and update stock
             List<OrderItem> orderItems = new ArrayList<>();
             for (CartItem cartItem : cart.getCartItems()) {
+                // Get fresh product data from database
+                Product product = productRepository.findByProductId(cartItem.getProduct().getProductId());
+                
+                // Subtract quantity from stock
+                product.setStockQuantity(product.getStockQuantity() - cartItem.getQuantity());
+                productRepository.save(product);
+                
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrder(order);
-                orderItem.setProduct(cartItem.getProduct());
+                orderItem.setProduct(product);
                 orderItem.setQuantity(cartItem.getQuantity());
-                orderItem.setUnitPrice(cartItem.getProduct().getPrice());
+                orderItem.setUnitPrice(product.getPrice());
                 orderItem.setTotalPrice(cartItem.getTotalPriceItem());
                 orderItems.add(orderItem);
             }
