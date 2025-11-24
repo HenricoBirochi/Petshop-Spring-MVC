@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+    <th:block th:replace="~{layout :: head('Edit Product', ~{::pageStyles})}"></th:block>
+
+    <th:block th:replace="~{layout :: layout(~{::content}, ~{::pageScripts})}">
+        <main th:fragment="content" class="w-full max-w-md">
+            <div class="space-y-6">
+                <!-- Header -->
+                <div class="text-center space-y-2">
+                    <div class="inline-block px-3 py-1 rounded-full text-xs font-medium" 
+                         style="background-color: #fbdc8e; color: #394F87;">
+                        ✏️ Edit Product
+                    </div>
+                    <h1 class="text-3xl font-bold" style="color: #394F87;">Edit Product</h1>
+                    <p class="text-xs" style="color: #394F87; opacity: 0.7;">Update product information</p>
+                </div>
+
+                <!-- Form -->
+                <form th:action="@{/product/edit/{id}(id=${product.productId})}" 
+                      method="post" 
+                      enctype="multipart/form-data"
+                      class="space-y-4">
+
+                    <div>
+                        <label for="name" class="block text-xs font-medium mb-1" style="color: #394F87;">Product Name</label>
+                        <input id="name" name="name" th:value="${product.name}" required type="text" placeholder="Enter product name"
+                               class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition" 
+                               style="border: 1px solid rgba(57, 79, 135, 0.2); background-color: white;" />
+                        <p th:text="${exception.specificErrors['emptyName']} ?: ''"
+                           class="mt-1 text-xs text-red-500 font-medium">
+                        </p>
+                    </div>
+
+                    <div>
+                        <label for="description" class="block text-xs font-medium mb-1" style="color: #394F87;">Description</label>
+                        <textarea id="description" name="description" required rows="3" placeholder="Enter product description" 
+                                  class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition"
+                                  style="border: 1px solid rgba(57, 79, 135, 0.2); background-color: white;"
+                                  th:text="${product.description}">
+                        </textarea>
+                        <p th:text="${exception.specificErrors['emptyDescription']} ?: ''"
+                           class="mt-1 text-xs text-red-500 font-medium">
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="price" class="block text-xs font-medium mb-1" style="color: #394F87;">Price</label>
+                            <input id="price" name="price" th:value="${product.price}" required type="number" step="0.01" placeholder="9.90"
+                                   class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition" 
+                                   style="border: 1px solid rgba(57, 79, 135, 0.2); background-color: white;" />
+                            <p th:text="${exception.specificErrors['emptyPrice']} ?: ''"
+                               class="mt-1 text-xs text-red-500 font-medium">
+                            </p>
+                        </div>
+
+                        <div>
+                            <label for="stockQuantity" class="block text-xs font-medium mb-1" style="color: #394F87;">Stock</label>
+                            <input id="stockQuantity" name="stockQuantity" th:value="${product.stockQuantity}" required type="number" placeholder="200"
+                                   class="block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none transition" 
+                                   style="border: 1px solid rgba(57, 79, 135, 0.2); background-color: white;" />
+                            <p th:text="${exception.specificErrors['emptyStockQuantity']} ?: ''"
+                               class="mt-1 text-xs text-red-500 font-medium">
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Current Images -->
+                    <div th:if="${product.productImages != null and !product.productImages.isEmpty()}">
+                        <label class="block text-xs font-medium mb-1" style="color: #394F87;">Current Images</label>
+                        <div class="grid grid-cols-4 gap-2">
+                            <div th:each="image : ${product.productImages}" 
+                                 class="rounded-lg overflow-hidden" 
+                                 style="background-color: #f8f9fa;">
+                                <img th:src="@{|/uploads/${image.productImageId}${image.fileExtension}|}" 
+                                     alt="Product Image" 
+                                     class="w-full aspect-square object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="images" class="block text-xs font-medium mb-1" style="color: #394F87;">Product Images (Optional)</label>
+                        <input id="images" name="images" type="file" multiple accept="image/png, image/jpeg"
+                               class="block w-full text-xs rounded-lg px-3 py-2 focus:outline-none transition"
+                               style="border: 1px solid rgba(57, 79, 135, 0.2); background-color: white;">
+                        <p class="mt-1 text-xs" style="color: #394F87; opacity: 0.6;">
+                            Leave empty to keep current images
+                        </p>
+                    </div>
+
+                    <p th:text="${exception.message}"
+                       class="text-xs text-red-600 font-semibold">
+                    </p>
+
+                    <button type="submit" 
+                            class="w-full rounded-lg text-white text-sm font-semibold px-4 py-2.5 transition-all hover:opacity-90"
+                            style="background-color: #fabb4d;"> 
+                        Update Product
+                    </button>
+                </form>
+            </div>
+        </main>
+    </th:block>
+</html>

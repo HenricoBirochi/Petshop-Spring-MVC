@@ -120,6 +120,78 @@ public class ProductController {
     }
 
     @VerifyIfIsAdmin
+    @GetMapping("/edit/{id}")
+    public ModelAndView editProductView(@PathVariable UUID id,
+                                        @ModelAttribute("exception") ModelException exception) {
+        ModelAndView mv = new ModelAndView("product/edit_product");
+        
+        Product product = productRepository.findByProductId(id);
+        if (product == null) {
+            mv = new ModelAndView("redirect:/product/all-products");
+            return mv;
+        }
+        
+        if (exception == null) {
+            exception = new ModelException("", new HashMap<>());
+        }
+
+        mv.addObject("product", product);
+        mv.addObject("exception", exception);
+        return mv;
+    }
+
+    @VerifyIfIsAdmin
+    @PostMapping("/edit/{id}")
+    public ModelAndView editProduct(@PathVariable UUID id,
+                                    @ModelAttribute("product") Product productForm,
+                                    @RequestParam(value = "images", required = false) List<MultipartFile> images) throws Exception {
+        ModelAndView mv;
+        try {
+            Product existingProduct = productRepository.findByProductId(id);
+            if (existingProduct == null) {
+                mv = new ModelAndView("redirect:/product/all-products");
+                return mv;
+            }
+
+            // Update product fields
+            existingProduct.setName(productForm.getName());
+            existingProduct.setDescription(productForm.getDescription());
+            existingProduct.setPrice(productForm.getPrice());
+            existingProduct.setStockQuantity(productForm.getStockQuantity());
+
+            iModelsValidationService.modelValidatingEmptyFields(existingProduct);
+
+            // If new images are uploaded, replace old ones
+            if (images != null && !images.isEmpty() && !images.get(0).isEmpty()) {
+                // Delete old images from disk
+                if (existingProduct.getProductImages() != null) {
+                    for (ProductImage img : existingProduct.getProductImages()) {
+                        Path p = Paths.get(uploadDir + "/" + img.getProductImageId().toString() + img.getFileExtension());
+                        try {
+                            Files.deleteIfExists(p);
+                        } catch (Exception ignored) {}
+                    }
+                    // Delete old image records
+                    productImageRepository.deleteAll(existingProduct.getProductImages());
+                }
+                
+                // Save new images
+                productImageSaveService.saveImageInDB(images, existingProduct, uploadDir);
+            }
+
+            productRepository.save(existingProduct);
+            mv = new ModelAndView("redirect:/product/details/" + id);
+            return mv;
+        }
+        catch (ModelException exception) {
+            mv = new ModelAndView("product/edit_product");
+            mv.addObject("exception", exception);
+            mv.addObject("product", productForm);
+            return mv;
+        }
+    }
+
+    @VerifyIfIsAdmin
     @PostMapping("/delete/{id}")
     public ModelAndView deleteProduct(@PathVariable UUID id) {
         ModelAndView mv = new ModelAndView("redirect:/product/all-products");
