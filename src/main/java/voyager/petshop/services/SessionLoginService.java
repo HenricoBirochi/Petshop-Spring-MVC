@@ -1,10 +1,9 @@
 package voyager.petshop.services;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpServletRequest;
 import voyager.petshop.dtos.LoginForm;
 import voyager.petshop.exceptions.WrongCredentialsException;
 import voyager.petshop.models.User;
@@ -21,7 +20,6 @@ public class SessionLoginService {
 
     public User verifyUserFormCredentials(LoginForm loginForm, HttpServletRequest request) throws WrongCredentialsException {
         boolean isEmail = loginForm.getCredential().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
-        ModelAndView mv;
         User user;
 
         if (isEmail) {

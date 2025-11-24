@@ -1,13 +1,24 @@
 package voyager.petshop.controllers;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,19 +26,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import voyager.petshop.authentication.VerifyIfIsAdmin;
 import voyager.petshop.exceptions.ModelException;
 import voyager.petshop.models.Product;
-import voyager.petshop.repositories.ProductRepository;
-import voyager.petshop.services.ProductImageSaveService;
-import voyager.petshop.services.models.IModelsValidationService;
 import voyager.petshop.models.ProductImage;
 import voyager.petshop.repositories.OrderItemRepository;
 import voyager.petshop.repositories.ProductImageRepository;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.stream.Collectors;
+import voyager.petshop.repositories.ProductRepository;
+import voyager.petshop.services.ProductImageSaveService;
+import voyager.petshop.services.models.IModelsValidationService;
 
 
 
@@ -124,13 +128,13 @@ public class ProductController {
     public ModelAndView editProductView(@PathVariable UUID id,
                                         @ModelAttribute("exception") ModelException exception) {
         ModelAndView mv = new ModelAndView("product/edit_product");
-        
+
         Product product = productRepository.findByProductId(id);
         if (product == null) {
             mv = new ModelAndView("redirect:/product/all-products");
             return mv;
         }
-        
+
         if (exception == null) {
             exception = new ModelException("", new HashMap<>());
         }
@@ -174,7 +178,7 @@ public class ProductController {
                     // Delete old image records
                     productImageRepository.deleteAll(existingProduct.getProductImages());
                 }
-                
+
                 // Save new images
                 productImageSaveService.saveImageInDB(images, existingProduct, uploadDir);
             }

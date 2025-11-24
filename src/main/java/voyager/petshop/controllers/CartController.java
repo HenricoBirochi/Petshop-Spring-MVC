@@ -1,14 +1,16 @@
 package voyager.petshop.controllers;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -111,7 +113,7 @@ public class CartController {
         try {
             var session = request.getSession();
             User user = (User) session.getAttribute("user");
-            
+
             if (user == null) {
                 mv = new ModelAndView("redirect:/user/sign-in");
                 return mv;
@@ -147,11 +149,11 @@ public class CartController {
             for (CartItem cartItem : cart.getCartItems()) {
                 // Get fresh product data from database
                 Product product = productRepository.findByProductId(cartItem.getProduct().getProductId());
-                
+
                 // Subtract quantity from stock
                 product.setStockQuantity(product.getStockQuantity() - cartItem.getQuantity());
                 productRepository.save(product);
-                
+
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrder(order);
                 orderItem.setProduct(product);
