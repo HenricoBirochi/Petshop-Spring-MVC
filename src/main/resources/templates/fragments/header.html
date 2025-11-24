@@ -31,10 +31,29 @@
                 <path d="M9 18l6-6-6-6"></path>
               </svg>
             </a>
+<<<<<<< HEAD
             <th:block th:if="${session.user != null and session.user.userRole.name() == 'ADMIN'}">
               <a
                 href="/product/add"
                 class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
+=======
+
+            <a
+              href="/product/add"
+              th:if="${session.user != null and session.user.userRole.role == 'admin'}"
+              class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
+            >
+              <span>Create Product</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 transform transition-transform duration-200 group-hover:translate-x-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+>>>>>>> ff08833084f87244e8152b091b2e95bf3344ac6b
               >
                 <span>Create Product</span>
                 <svg
@@ -98,6 +117,11 @@
               ></path>
             </svg>
           </a>
+<<<<<<< HEAD
+=======
+
+          <!-- When user is NOT logged in: show sign in / sign up -->
+>>>>>>> ff08833084f87244e8152b091b2e95bf3344ac6b
           <th:block th:if="${session.user == null}">
             <a
               href="/user/sign-in"
@@ -121,12 +145,17 @@
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
             </a>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ff08833084f87244e8152b091b2e95bf3344ac6b
             <a
               href="/user/sign-up"
               class="px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:text-slate-900 text-sm font-medium bg-[var(--petshop-200)] hover:bg-[var(--petshop-500)]"
               >Sign Up</a
             >
           </th:block>
+<<<<<<< HEAD
           <th:block th:if="${session.user != null}">
             <span th:text="${session.user.userName}"></span>
             <a
@@ -134,6 +163,24 @@
               class="px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:text-slate-900 text-sm font-medium bg-[var(--petshop-200)] hover:bg-[var(--petshop-500)]"
               >Log Out</a
             >
+=======
+
+          <!-- When user IS logged in: show username and sign out -->
+          <th:block th:if="${session.user != null}">
+            <div class="flex items-center gap-3">
+              <span
+                class="text-sm font-medium"
+                style="color: #394f87"
+                th:text="${session.user.userName}"
+              ></span>
+              <a
+                href="/user/sign-out"
+                class="px-2 py-1 rounded-md text-sm font-medium"
+                style="background-color: #fbdc8e; color: #394f87"
+                >Sign Out</a
+              >
+            </div>
+>>>>>>> ff08833084f87244e8152b091b2e95bf3344ac6b
           </th:block>
         </div>
       </div>
