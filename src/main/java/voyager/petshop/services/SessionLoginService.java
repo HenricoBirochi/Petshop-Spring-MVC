@@ -15,7 +15,10 @@ public class SessionLoginService {
     @Autowired
     private UserRepository userRepository;
 
-    public ModelAndView verifyUserFormCredentials(LoginForm loginForm, HttpServletRequest request) throws WrongCredentialsException {
+    @Autowired
+    private HashingOfUserPasswordService hashingOfUserPasswordService;
+
+    public User verifyUserFormCredentials(LoginForm loginForm, HttpServletRequest request) throws WrongCredentialsException {
         boolean isEmail = loginForm.getCredential().matches("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}");
         ModelAndView mv;
         User user;
@@ -26,13 +29,12 @@ public class SessionLoginService {
         else {
             user = userRepository.findByUserName(loginForm.getCredential());
         }
-        if (user != null && user.getPassword().equals(loginForm.getPassword())) {
+        if (user == null)
+            throw new WrongCredentialsException("Credentials are wrong or you don't have an account");
 
-            setUserInSession(user, request);
+        if (hashingOfUserPasswordService.checkPassword(loginForm.getPassword(), user.getPassword()))
+            return user;
 
-            mv = new ModelAndView("redirect:/");
-            return mv;
-        }
         throw new WrongCredentialsException("Credentials are wrong or you don't have an account");
     }
 

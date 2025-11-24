@@ -18,6 +18,7 @@ import voyager.petshop.exceptions.WrongCredentialsException;
 import voyager.petshop.models.User;
 import voyager.petshop.models.enums.UserRoles;
 import voyager.petshop.repositories.UserRepository;
+import voyager.petshop.services.HashingOfUserPasswordService;
 import voyager.petshop.services.SessionLoginService;
 import voyager.petshop.services.models.IModelsValidationService;
 
@@ -35,6 +36,9 @@ public class UserController {
 
     @Autowired
     private SessionLoginService sessionLoginService;
+
+    @Autowired
+    private HashingOfUserPasswordService hashingOfUserPasswordService;
 
     @GetMapping("/sign-up")
     public ModelAndView signUpPage(@ModelAttribute("user") User user,
@@ -58,7 +62,9 @@ public class UserController {
             if (user != null) {
                 iModelsValidationService.modelValidatingEmptyFields(user);
                 iModelsValidationService.modelValidatingIfExists(user);
+                String hashedPassword = hashingOfUserPasswordService.hashPassword(user.getPassword());
                 user.setUserRole(UserRoles.USER);
+                user.setPassword(hashedPassword);
                 userRepository.save(user);
                 mv = new ModelAndView("redirect:/");
                 return mv;
@@ -92,7 +98,8 @@ public class UserController {
         ModelAndView mv = new ModelAndView("redirect:/");
 
         try {
-            mv = sessionLoginService.verifyUserFormCredentials(loginForm, request);
+            User user = sessionLoginService.verifyUserFormCredentials(loginForm, request);
+            sessionLoginService.setUserInSession(user, request);
         }
         catch(WrongCredentialsException exception) {
             mv.setViewName("user/sign_in");
