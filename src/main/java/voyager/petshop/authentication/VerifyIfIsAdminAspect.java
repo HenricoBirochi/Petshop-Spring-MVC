@@ -6,10 +6,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import voyager.petshop.exceptions.NotAdminException;
-import voyager.petshop.exceptions.NotLoggedInException;
 import voyager.petshop.models.User;
 import voyager.petshop.models.enums.UserRoles;
 
@@ -27,7 +27,7 @@ public class VerifyIfIsAdminAspect {
         User user = (User)session.getAttribute("user");
 
         if (user == null) {
-            throw new NotLoggedInException("You can't access this page, first you need to sign in");
+            return new ModelAndView("redirect:/user/sign-in");
         }
 
         if (user.getUserRole().equals(UserRoles.ADMIN)) {

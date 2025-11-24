@@ -6,9 +6,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
-import voyager.petshop.exceptions.NotLoggedInException;
 
 @Aspect
 @Component
@@ -27,7 +27,7 @@ public class VerifyIfLoggedAspect {
             return jp.proceed();
         }
 
-        throw new NotLoggedInException("You can't do this, first you need to sign in");
+        return new ModelAndView("redirect:/user/sign-in");
 
     }
 
