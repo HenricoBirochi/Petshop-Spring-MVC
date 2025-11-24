@@ -31,7 +31,9 @@
                 <path d="M9 18l6-6-6-6"></path>
               </svg>
             </a>
-            <th:block th:if="${session.user != null and session.user.userRole.name() == 'ADMIN'}">
+            <th:block
+              th:if="${session.user != null and session.user.userRole.name() == 'ADMIN'}"
+            >
               <a
                 href="/product/add"
                 class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
