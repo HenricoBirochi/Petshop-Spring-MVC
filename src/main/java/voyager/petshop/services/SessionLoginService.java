@@ -1,6 +1,7 @@
 package voyager.petshop.services;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,6 +42,11 @@ public class SessionLoginService {
     public void setUserInSession(User user, HttpServletRequest request) {
         var session = request.getSession();
         session.setAttribute("user", user);
+    }
+
+    public void clearUserSession(HttpServletRequest request) {
+        var session = request.getSession();
+        session.setAttribute("user", null);
     }
 
 }

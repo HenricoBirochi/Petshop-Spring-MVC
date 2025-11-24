@@ -110,4 +110,13 @@ public class UserController {
         return mv;
     }
 
+    @GetMapping("/log-out")
+    public ModelAndView logOut(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView("redirect:/");
+
+        sessionLoginService.clearUserSession(request);
+
+        return mv;
+    }
+
 }

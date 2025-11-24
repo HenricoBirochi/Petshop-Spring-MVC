@@ -31,26 +31,26 @@
                 <path d="M9 18l6-6-6-6"></path>
               </svg>
             </a>
-
-            <a
-              href="/product/add"
-              class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
-            >
-              <span>Create Product</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-4 h-4 transform transition-transform duration-200 group-hover:translate-x-1"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+            <th:block th:if="${session.user != null and session.user.userRole.name() == 'ADMIN'}">
+              <a
+                href="/product/add"
+                class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
               >
-                <path d="M9 18l6-6-6-6"></path>
-              </svg>
-            </a>
-
+                <span>Create Product</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-4 h-4 transform transition-transform duration-200 group-hover:translate-x-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M9 18l6-6-6-6"></path>
+                </svg>
+              </a>
+            </th:block>
             <a
               href="/about"
               class="group inline-flex items-center gap-2 px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:bg-slate-100 hover:text-slate-900"
@@ -98,35 +98,43 @@
               ></path>
             </svg>
           </a>
-
-          <a
-            href="/user/sign-in"
-            class="p-2 rounded-md text-slate-600 hover:bg-slate-50"
-            aria-label="Sign in"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="lucide lucide-user"
+          <th:block th:if="${session.user == null}">
+            <a
+              href="/user/sign-in"
+              class="p-2 rounded-md text-slate-600 hover:bg-slate-50"
+              aria-label="Sign in"
             >
-              <path d="M20 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M4 21v-2a4 4 0 0 1 3-3.87"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-          </a>
-
-          <a
-            href="/user/sign-up"
-            class="px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:text-slate-900 text-sm font-medium bg-[var(--petshop-200)] hover:bg-[var(--petshop-500)]"
-            >Sign Up</a
-          >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-user"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M4 21v-2a4 4 0 0 1 3-3.87"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </a>
+            <a
+              href="/user/sign-up"
+              class="px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:text-slate-900 text-sm font-medium bg-[var(--petshop-200)] hover:bg-[var(--petshop-500)]"
+              >Sign Up</a
+            >
+          </th:block>
+          <th:block th:if="${session.user != null}">
+            <span th:text="${session.user.userName}"></span>
+            <a
+              href="/user/log-out"
+              class="px-2 py-1 rounded-md text-slate-600 transition-colors duration-150 hover:text-slate-900 text-sm font-medium bg-[var(--petshop-200)] hover:bg-[var(--petshop-500)]"
+              >Log Out</a
+            >
+          </th:block>
         </div>
       </div>
     </div>
